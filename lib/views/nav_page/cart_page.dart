@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:smartshop/views/nav_page/widgets/dialog.dart';
 import '../../inner_page/checkout.dart';
 import '../../providers/cart_provider.dart';
+
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
@@ -251,43 +252,45 @@ class _CartPageState extends State<CartPage> {
       // ),
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: _cartProvider.totalPrice == 0 ? const SizedBox(): Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                'Total:  ฿${_cartProvider.totalPrice.toStringAsFixed(2)}',
-                style: GoogleFonts.righteous(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w200,
-                    color: Colors.red),
+        child: _cartProvider.totalPrice == 0
+            ? const SizedBox()
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Total:  ฿${_cartProvider.totalPrice.toStringAsFixed(2)}',
+                      style: GoogleFonts.righteous(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.red),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.yellow.shade900,
+                      ),
+                      label: Text(
+                        'CheckOut ',
+                        style: GoogleFonts.righteous(fontSize: 16),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CheckOutPage()));
+                      },
+                      icon: const Icon(
+                        Icons.check_circle_outline,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow.shade900,
-                ),
-                label: Text(
-                  'CheckOut ',
-                  style: GoogleFonts.righteous(fontSize: 16),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CheckOutPage()));
-                },
-                icon: const Icon(
-                  Icons.check_circle_outline,
-                  size: 20,
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

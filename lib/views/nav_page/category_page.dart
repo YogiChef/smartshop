@@ -27,50 +27,55 @@ class CategoryPage extends StatelessWidget {
         }
 
         return Padding(
-          padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
           child: StaggeredGridView.countBuilder(
             shrinkWrap: true,
-            crossAxisCount: 2,
+            crossAxisCount: 3,
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               final productData = snapshot.data!.docs[index];
               return GestureDetector(
-                onTap: productData['approved'] == false 
-                ? null 
-                : () {
-                },
+                onTap: productData['approved'] == false ? null : () {},
                 child: Column(
                   children: [
-                   productData['approved'] == false 
-                        ?  Container(
-                         
-                        padding: const EdgeInsets.only(right: 8),
-                        constraints: const BoxConstraints(
-                          minHeight: 120,
-                          maxHeight: 150,
-                          minWidth: double.infinity,
-                        ),
-                       child: Stack(
-                         children: [
-                           Image(
+                    productData['approved'] == false
+                        ? Stack(
+                            children: [
+                              Image(
+                                  image: NetworkImage(productData['image']),
+                                  fit: BoxFit.cover),
+                              Positioned.fill(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  color: Colors.white.withOpacity(0.7),
+                                  constraints: const BoxConstraints(
+                                    minHeight: 120,
+                                    maxHeight: 250,
+                                    minWidth: double.infinity,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Close',
+                                      style: GoogleFonts.righteous(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          backgroundColor: Colors.black38),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(
+                            padding: const EdgeInsets.only(right: 8),
+                            constraints: const BoxConstraints(
+                              minHeight: 120,
+                              maxHeight: 250,
+                              minWidth: double.infinity,
+                            ),
+                            child: Image(
                                 image: NetworkImage(productData['image']),
-                                fit: BoxFit.cover),
-                                Positioned.fill(
-                                  bottom: 0,
-                                  child: Container(color: Colors.black54,child: Center(child: Text('Close',style: GoogleFonts.righteous(fontSize: 20,color: Colors.white),),),))
-                         ],
-                         
-                       )): 
-                    Container(
-                        padding: const EdgeInsets.only(right: 8),
-                        constraints: const BoxConstraints(
-                          minHeight: 120,
-                          maxHeight: 250,
-                          minWidth: double.infinity,
-                        ),
-                       child: Image(
-                            image: NetworkImage(productData['image']),
-                            fit: BoxFit.cover)),
+                                fit: BoxFit.cover)),
                     Padding(
                       padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
                       child: Text(

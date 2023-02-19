@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +77,13 @@ class ProfilePage extends StatelessWidget {
                                               Colors.yellow.shade900,
                                         ),
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  EditProfile(userData: data,)));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditProfile(
+                                                        userData: data,
+                                                      )));
                                         },
                                         child: Text(
                                           'Edit Profile',
