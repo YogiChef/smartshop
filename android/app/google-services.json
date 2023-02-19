@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "279393469363",
+    "project_id": "smartshop-288b8",
+    "storage_bucket": "smartshop-288b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279393469363:android:5b7b8dff36709ceb6381c6",
+        "android_client_info": {
+          "package_name": "com.exedev.smartshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279393469363-sb5l482hjmbad7r5uufbfrbugqsf62v7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.exedev.smartshop",
+            "certificate_hash": "e32ea54783f6a9d8da58052af15665a16208fe8d"
+          }
+        },
+        {
+          "client_id": "279393469363-ha6i7nuakcfodl6b8vg7rsr5u1me8pv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANEcpF6rMclnUpNahmUBdlNGXg7wxSAss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279393469363-ha6i7nuakcfodl6b8vg7rsr5u1me8pv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
