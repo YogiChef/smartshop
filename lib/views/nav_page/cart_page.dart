@@ -46,210 +46,215 @@ class _CartPageState extends State<CartPage> {
                         Navigator.pop(context);
                       });
                 },
-                icon: const Icon(
-                  CupertinoIcons.delete,
+                icon: Icon(
+                  _cartProvider.totalPrice == 0 ? null : CupertinoIcons.delete,
                   color: Colors.black54,
                   size: 20,
                 ))
           ]),
-      body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: _cartProvider.getCartItem.length,
-          itemBuilder: (context, index) {
-            final cartData = _cartProvider.getCartItem.values.toList()[index];
-            return Card(
-              child: SizedBox(
-                  height: 90,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 70,
-                        width: 90,
-                        child: Image.network(
-                          cartData.imageUrl[0],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12, bottom: 8, right: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                cartData.proName,
-                                style: GoogleFonts.righteous(
-                                    fontSize: 16, color: Colors.black54),
-                              ),
-                              SizedBox(
-                                height: 20,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      cartData.price.toStringAsFixed(2),
-                                      style: GoogleFonts.righteous(
-                                          height: 0.5,
-                                          fontSize: 16,
-                                          color: Colors.red),
-                                    ),
-                                    cartData.quantity < 1
-                                        ? IconButton(
-                                            icon: const Icon(
-                                              CupertinoIcons.delete_left_fill,
-                                              size: 20,
-                                              color: Colors.red,
-                                            ),
-                                            onPressed: () {
-                                              _cartProvider
-                                                  .removeItem(cartData.proId);
-                                            },
-                                          )
-                                        : const SizedBox()
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 24,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.pink.shade100),
-                                      onPressed: () {},
-                                      child: Text(
-                                        cartData.productSize,
-                                        style: GoogleFonts.righteous(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-
-                                    cartData.quantity < 1
-                                        ? const SizedBox()
-                                        : CartStepperInt(
-                                            value: cartData.quantity,
-                                            didChangeCount: (int value) {
-                                              if (value < 0) {
-                                                return;
-                                              }
-                                              cartData.proqty == value
-                                                  ? Fluttertoast.showToast(
-                                                      msg: 'msg',
-                                                    )
-                                                  : setState(() {
-                                                      cartData.quantity = value;
-                                                    });
-                                            },
-                                            size: 28,
-                                            style: CartStepperTheme.of(context)
-                                                .copyWith(
-                                                    activeForegroundColor:
-                                                        Colors.red,
-                                                    activeBackgroundColor:
-                                                        Colors.white,
-                                                    textStyle:
-                                                        GoogleFonts.righteous(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                    border: Border.all(
-                                                      color: Colors.green,
-                                                    ),
-                                                    radius:
-                                                        const Radius.circular(
-                                                            3)))
-                                    // Container(
-                                    //   height: 30,
-                                    //   decoration: BoxDecoration(
-                                    //       border: Border.all(
-                                    //           color: Colors.grey, width: 0.5),
-                                    //       borderRadius: BorderRadius.circular(3)),
-                                    //   child: Row(
-                                    //     children: [
-                                    //       IconButton(
-                                    //           onPressed: cartData.quantity == 1
-                                    //               ? null
-                                    //               : () {
-                                    //                   _cartProvider
-                                    //                       .dereament(cartData);
-                                    //                 },
-                                    //           icon: const Icon(
-                                    //             Icons.remove,
-                                    //             size: 16,
-                                    //           )),
-                                    //       Text(
-                                    //         cartData.quantity.toString(),
-                                    //         style: GoogleFonts.righteous(
-                                    //             fontSize: 14,
-                                    //             fontWeight: FontWeight.bold),
-                                    //       ),
-                                    //       IconButton(
-                                    //           onPressed: () {
-                                    //             _cartProvider
-                                    //                 .increament(cartData);
-                                    //           },
-                                    //           icon: const Icon(
-                                    //             Icons.add,
-                                    //             size: 16,
-                                    //           ))
-                                    //     ],
-                                    //   ),
-                                    // )
-                                  ],
-                                ),
-                              ),
-                            ],
+      body: _cartProvider.getCartItem.isNotEmpty
+          ? ListView.builder(
+              shrinkWrap: true,
+              itemCount: _cartProvider.getCartItem.length,
+              itemBuilder: (context, index) {
+                final cartData =
+                    _cartProvider.getCartItem.values.toList()[index];
+                return Card(
+                  child: SizedBox(
+                      height: 90,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 70,
+                            width: 90,
+                            child: Image.network(
+                              cartData.imageUrl[0],
+                              fit: BoxFit.cover,
+                            ),
                           ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12, bottom: 8, right: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    cartData.proName,
+                                    style: GoogleFonts.righteous(
+                                        fontSize: 16, color: Colors.black54),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          cartData.price.toStringAsFixed(2),
+                                          style: GoogleFonts.righteous(
+                                              height: 0.5,
+                                              fontSize: 16,
+                                              color: Colors.red),
+                                        ),
+                                        cartData.quantity < 1
+                                            ? IconButton(
+                                                icon: const Icon(
+                                                  CupertinoIcons
+                                                      .delete_left_fill,
+                                                  size: 20,
+                                                  color: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  _cartProvider.removeItem(
+                                                      cartData.proId);
+                                                },
+                                              )
+                                            : const SizedBox()
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 24,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.pink.shade100),
+                                          onPressed: () {},
+                                          child: Text(
+                                            cartData.productSize,
+                                            style: GoogleFonts.righteous(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+
+                                        cartData.quantity < 1
+                                            ? const SizedBox()
+                                            : CartStepperInt(
+                                                value: cartData.quantity,
+                                                didChangeCount: (int value) {
+                                                  if (value < 0) {
+                                                    return;
+                                                  }
+                                                  cartData.proqty == value
+                                                      ? Fluttertoast.showToast(
+                                                          msg: 'msg',
+                                                        )
+                                                      : setState(() {
+                                                          cartData.quantity =
+                                                              value;
+                                                        });
+                                                },
+                                                size: 28,
+                                                style: CartStepperTheme.of(
+                                                        context)
+                                                    .copyWith(
+                                                        activeForegroundColor:
+                                                            Colors.red,
+                                                        activeBackgroundColor:
+                                                            Colors.white,
+                                                        textStyle: GoogleFonts
+                                                            .righteous(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                        border: Border.all(
+                                                          color: Colors.green,
+                                                        ),
+                                                        radius: const Radius
+                                                            .circular(3)))
+                                        // Container(
+                                        //   height: 30,
+                                        //   decoration: BoxDecoration(
+                                        //       border: Border.all(
+                                        //           color: Colors.grey, width: 0.5),
+                                        //       borderRadius: BorderRadius.circular(3)),
+                                        //   child: Row(
+                                        //     children: [
+                                        //       IconButton(
+                                        //           onPressed: cartData.quantity == 1
+                                        //               ? null
+                                        //               : () {
+                                        //                   _cartProvider
+                                        //                       .dereament(cartData);
+                                        //                 },
+                                        //           icon: const Icon(
+                                        //             Icons.remove,
+                                        //             size: 16,
+                                        //           )),
+                                        //       Text(
+                                        //         cartData.quantity.toString(),
+                                        //         style: GoogleFonts.righteous(
+                                        //             fontSize: 14,
+                                        //             fontWeight: FontWeight.bold),
+                                        //       ),
+                                        //       IconButton(
+                                        //           onPressed: () {
+                                        //             _cartProvider
+                                        //                 .increament(cartData);
+                                        //           },
+                                        //           icon: const Icon(
+                                        //             Icons.add,
+                                        //             size: 16,
+                                        //           ))
+                                        //     ],
+                                        //   ),
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      )),
+                );
+              })
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Your Cart Is Empty !',
+                    style: GoogleFonts.righteous(
+                        color: Colors.blue.shade700,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w300),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.yellow.shade900,
                         ),
-                      )
-                    ],
-                  )),
-            );
-          }),
-      //   body: Center(
-      // child: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     Text(
-      //       'Your Cart Is Empty !',
-      //       style: GoogleFonts.righteous(
-      //           color: Colors.blue.shade700,
-      //           fontSize: 30,
-      //           fontWeight: FontWeight.w300),
-      //     ),
-      //     const SizedBox(
-      //       height: 30,
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 20),
-      //       child: ElevatedButton(
-      //           style: ElevatedButton.styleFrom(
-      //             backgroundColor: Colors.yellow.shade900,
-      //           ),
-      //           onPressed: () {
-      //             Navigator.canPop(context)
-      //                 ? Navigator.pop(context)
-      //                 : Navigator.pushReplacementNamed(
-      //                     context, ('customer_home'));
-      //           },
-      //           child: Text(
-      //             'Continue Shopping',
-      //             style: GoogleFonts.righteous(
-      //               fontSize: 20,
-      //               fontWeight: FontWeight.w500,
-      //             ),
-      //           )),
-      //     )
-      //   ],
-      // ),
-      // ),
+                        onPressed: () {
+                          Navigator.canPop(context)
+                              ? Navigator.pop(context)
+                              : Navigator.pushReplacementNamed(
+                                  context, ('customer_home'));
+                        },
+                        child: Text(
+                          'Continue Shopping',
+                          style: GoogleFonts.righteous(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )),
+                  )
+                ],
+              ),
+            ),
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
         child: _cartProvider.totalPrice == 0

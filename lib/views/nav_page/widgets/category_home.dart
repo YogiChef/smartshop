@@ -40,7 +40,7 @@ class CategoryHome extends StatelessWidget {
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
                 return GestureDetector(
-                  onTap:  () {
+                  onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
