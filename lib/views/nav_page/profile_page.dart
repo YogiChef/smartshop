@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartshop/auth/login_page.dart';
 import 'package:smartshop/inner_page/edit_profile.dart';
+import 'package:smartshop/inner_page/orders_page.dart';
 import 'package:smartshop/services/service_firebase.dart';
 import 'package:smartshop/views/nav_page/widgets/dialog.dart';
 
@@ -124,11 +125,18 @@ class ProfilePage extends StatelessWidget {
                       onPress: () {},
                       icon: Icons.phone,
                       text: 'Phone',
-                      subtitle: '09264757284'),
+                      subtitle: data['phone']),
                   firstBlock(
                       onPress: () {}, icon: Icons.shopping_cart, text: 'Cart'),
                   firstBlock(
-                      onPress: () {}, icon: Icons.description, text: 'Orders'),
+                      onPress: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const OrderPage()));
+                      },
+                      icon: Icons.description,
+                      text: 'Orders'),
                   firstBlock(
                       onPress: () {
                         MyAlertDialog.showMyDialog(

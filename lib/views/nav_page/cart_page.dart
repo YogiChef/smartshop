@@ -166,7 +166,7 @@ class _CartPageState extends State<CartPage> {
                                                                     FontWeight
                                                                         .w600),
                                                         border: Border.all(
-                                                          color: Colors.green,
+                                                          color: Colors.grey,
                                                         ),
                                                         radius: const Radius
                                                             .circular(3)))

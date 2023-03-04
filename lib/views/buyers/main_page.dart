@@ -63,7 +63,7 @@ class _MainPageState extends State<MainPage> {
                 label: 'Cart'),
             BottomNavigationBarItem(
                 icon: Icon(
-                    _pageIndex == 4 ? IconlyBold.search : IconlyLight.search),
+                    _pageIndex == 4 ? IconlyLight.search : IconlyLight.search),
                 label: 'Search'),
             BottomNavigationBarItem(
               icon: Icon(

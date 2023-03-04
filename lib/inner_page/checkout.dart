@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smartshop/services/service_firebase.dart';
@@ -158,10 +157,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               'Place Order ',
                               style: GoogleFonts.righteous(fontSize: 16),
                             ),
-                            onPressed: () {
-                              EasyLoading.show(status: 'Placing Order');
+                            onPressed: () async {
                               _cartProvider.getCartItem.forEach((key, item) {
                                 final orderId = const Uuid().v4();
+
                                 firestore
                                     .collection('orders')
                                     .doc(orderId)
@@ -182,12 +181,22 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   'productSize': item.productSize,
                                   'scheduleDate': item.scheduleDate,
                                   'oderDate': DateTime.now(),
-                                  'accepted':false,
-                                }).whenComplete(() {
+                                  'accepted': false,
+                                }).whenComplete(() async {
+                                  firestore.runTransaction((transaction) async {
+                                    DocumentReference rf = FirebaseFirestore
+                                        .instance
+                                        .collection('products')
+                                        .doc(item.proId);
+                                    DocumentSnapshot spshot =
+                                        await transaction.get(rf);
+                                    transaction.update(rf,
+                                        {'qty': spshot['qty'] - item.quantity});
+                                  });
                                   setState(() {
                                     _cartProvider.getCartItem.clear();
                                   });
-                                  EasyLoading.dismiss();
+
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

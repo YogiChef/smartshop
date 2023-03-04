@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 import 'package:smartshop/providers/cart_provider.dart';
-import 'package:smartshop/views/buyers/main_page.dart';
 import 'package:intl/intl.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -122,30 +121,57 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
                 SizedBox(
                   height: 30,
-                  child:_cartProvider.getCartItem.containsKey(widget.productData['proId']) ? Text('This item you have in cart already.!',style: GoogleFonts.righteous(fontSize: 20,color: Colors.red),): ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: widget.productData['size'].length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child:  ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: selectSized !=
-                                        widget.productData['size'][index]
-                                    ? Colors.pink.shade500
-                                    : Colors.transparent),
-                            onPressed: () {
-                              setState(() {
-                                selectSized = widget.productData['size'][index];
-                              });
-                            },
-                            child: Text(
-                              widget.productData['size'][index],
-                              style: GoogleFonts.righteous(color: Colors.white),
-                            ),
-                          ),
-                        );
-                      }),
+                  child: _cartProvider.getCartItem
+                          .containsKey(widget.productData['proId'])
+                      ? Text(
+                          'This item you have in cart already.!',
+                          style: GoogleFonts.righteous(
+                              fontSize: 20, color: Colors.red),
+                        )
+                      : ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.productData['size'].length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 4),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: selectSized !=
+                                            widget.productData['size'][index]
+                                        ? Colors.pink.shade500
+                                        : Colors.transparent),
+                                onPressed: () {
+                                  setState(() {
+                                    selectSized =
+                                        widget.productData['size'][index];
+                                  });
+                                },
+                                child: Text(
+                                  widget.productData['size'][index],
+                                  style: GoogleFonts.righteous(
+                                      color: Colors.white),
+                                ),
+                              ),
+                            );
+                          }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Shipping On',
+                        style: GoogleFonts.righteous(fontSize: 14),
+                      ),
+                      Text(
+                        DateFormat('dd/MM/yyyy - hh:mm')
+                            .format(widget.productData['date'].toDate()),
+                        style: GoogleFonts.righteous(
+                            fontSize: 14, color: Colors.black87),
+                      )
+                    ],
+                  ),
                 ),
                 ExpansionTile(
                   title: Row(
@@ -184,21 +210,6 @@ class _ProductDetailState extends State<ProductDetail> {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Shipping On',
-                      style: GoogleFonts.righteous(fontSize: 14),
-                    ),
-                    Text(
-                      DateFormat('dd/MM/yyyy - hh:mm')
-                          .format(widget.productData['date'].toDate()),
-                      style: GoogleFonts.righteous(
-                          fontSize: 14, color: Colors.green.shade700),
-                    )
-                  ],
-                ),
               ],
             ),
           ),
@@ -230,11 +241,14 @@ class _ProductDetailState extends State<ProductDetail> {
                       selectSized!,
                       widget.productData['date'],
                     );
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MainPage()));
-                    Fluttertoast.showToast(msg: 'You Added ${widget.productData['proName']} To Your Cart');        
+                    Navigator.pop(context);
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const MainPage()));
+                    Fluttertoast.showToast(
+                        msg:
+                            'You Added ${widget.productData['proName']} To Your Cart');
                   },
                   icon: const Icon(
                     Icons.shopping_cart_outlined,

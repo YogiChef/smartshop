@@ -40,29 +40,50 @@ class CategoryHome extends StatelessWidget {
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProductDetail(
-                                  productData: productData,
-                                )));
-                  },
+                  onTap: productData['approved'] == false
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductDetail(
+                                        productData: productData,
+                                      )));
+                        },
                   child: Card(
                       child: Column(
                     children: [
-                      Container(
-                          constraints: const BoxConstraints(
-                            minHeight: 120,
-                            maxHeight: 250,
-                            minWidth: double.infinity,
-                          ),
-                          child: Hero(
-                            tag: 'proName${productData['proName']}',
-                            child: Image(
+                      productData['approved'] == false
+                          ? Stack(children: [
+                              Image(
                                 image: NetworkImage(productData['imageUrl'][0]),
-                                fit: BoxFit.cover),
-                          )),
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned.fill(
+                                  child: Container(
+                                color: Colors.black87.withOpacity(0.6),
+                                child: Center(
+                                  child: Text(
+                                    'Out of Stock',
+                                    style: GoogleFonts.righteous(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
+                                ),
+                              ))
+                            ])
+                          : Container(
+                              constraints: const BoxConstraints(
+                                minHeight: 120,
+                                maxHeight: 250,
+                                minWidth: double.infinity,
+                              ),
+                              child: Hero(
+                                tag: 'proName${productData['proName']}',
+                                child: Image(
+                                    image: NetworkImage(
+                                        productData['imageUrl'][0]),
+                                    fit: BoxFit.cover),
+                              )),
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 8, top: 8, right: 8),

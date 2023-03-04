@@ -55,7 +55,7 @@ class CategoryPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MainVendorPage(
+                              builder: (context) => MainCategoryPage(
                                     prorist: productData,
                                   )));
                     },
