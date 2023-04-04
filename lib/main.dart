@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:smartshop/auth/login_page.dart';
 import 'package:smartshop/providers/cart_provider.dart';
 import 'package:smartshop/views/buyers/main_page.dart';
 
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const MainPage(),
       routes: {'customer_home': ((context) => const MainPage())},
     );
   }

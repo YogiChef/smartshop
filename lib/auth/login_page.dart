@@ -59,8 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 'Login\nCustorer\'s Account',
                 textAlign: TextAlign.left,
-                style: GoogleFonts.righteous(
-                    fontSize: 24,
+                style: styles(fontSize: 24,
                     letterSpacing: 1.5,
                     fontWeight: FontWeight.w600),
               ),
@@ -145,10 +144,8 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: Text(
                           'Login',
-                          style: GoogleFonts.righteous(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: styles(fontSize: 20,
+                            fontWeight: FontWeight.w500,)
                         )),
               ),
             ),

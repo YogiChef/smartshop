@@ -1,10 +1,13 @@
 // ignore_for_file: unused_field
 
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartshop/services/service_firebase.dart';
+import 'package:uuid/uuid.dart';
 import '../views/nav_page/widgets/input_textfield.dart';
 
 class EditProfile extends StatefulWidget {
@@ -19,6 +22,10 @@ class _EditProfileState extends State<EditProfile> {
   final email = TextEditingController();
   final phone = TextEditingController();
   final bool _isLoading = false;
+  late String zipcode;
+  String countryValue = 'Country';
+  String stateValue = 'State';
+  String cityValue = 'City';
 
   String? address;
 
@@ -40,7 +47,7 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         title: Text(
           'Edit Profile',
-          style: GoogleFonts.righteous(fontSize: 24, color: Colors.black54),
+          style: styles(fontSize: 24, color: Colors.black54),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -220,6 +227,43 @@ class _EditProfileState extends State<EditProfile> {
               }
             },
           ),
+          
+          
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                SelectState(onCountryChanged: (value) {
+                  setState(() {
+                    countryValue = value;
+                  });
+                }, onStateChanged: (value) {
+                  stateValue = value;
+                }, onCityChanged: (value) {
+                  cityValue = value;
+                }),
+                SizedBox(
+                  width: double.infinity,
+                  child: InputTextfield(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your zip code';
+                      } else {
+                        return null;
+                      }
+                    },
+                    hintText: 'zipcode',
+                    prefixIcon: const Icon(Icons.push_pin),
+                    textInputType: TextInputType.number,
+                    onChanged: (value) {
+                      zipcode = value;
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
 
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -236,26 +280,39 @@ class _EditProfileState extends State<EditProfile> {
                         backgroundColor: Colors.yellow.shade900,
                       ),
                       onPressed: () async {
-                        EasyLoading.show(status: 'Updating..');
-                        await firestore
-                            .collection('buyers')
-                            .doc(auth.currentUser!.uid)
-                            .update({
-                          'fullName': fullName.text,
-                          'email': email.text,
-                          'phone': phone.text,
-                          'address': address,
-                        }).whenComplete(() {
-                          EasyLoading.dismiss();
-                          Navigator.pop(context);
-                        });
+                        // EasyLoading.show(status: 'Updating..');
+                        if (countryValue != 'Choose Country' &&
+                            stateValue != 'Choose State' &&
+                            cityValue != 'Choose City') {
+                          CollectionReference addresRf = firestore
+                              .collection('buyers')
+                              .doc(auth.currentUser!.uid)
+                              .collection('address');
+                          var addresId = const Uuid().v4();
+                          await addresRf.doc(addresId).set({
+                            'addressId': addresId,
+                            'fullName': fullName.text,
+                            'email': email.text,
+                            'phone': phone.text,
+                            'address': address,
+                            'country': countryValue,
+                            'state': stateValue,
+                            'city': cityValue,
+                            'zipcode': zipcode,
+                            'default': true,
+                          }).whenComplete(() {
+                            // EasyLoading.dismiss();
+                            Navigator.pop(context);
+                          });
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: 'Please set your location');
+                        }
                       },
                       child: Text(
                         'Update',
-                        style: GoogleFonts.righteous(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: styles(fontSize: 20,
+                          fontWeight: FontWeight.w500,),
                       )),
             ),
           ),

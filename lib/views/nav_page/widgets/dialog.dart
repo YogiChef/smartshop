@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../services/service_firebase.dart';
+
 class MyAlertDialog {
   static void showMyDialog({
     required BuildContext context,
@@ -46,9 +48,9 @@ class LoginDialog {
                   },
                 ),
                 CupertinoDialogAction(
-                  child: const Text(
+                  child:  Text(
                     'Log in',
-                    style: TextStyle(
+                    style: styles(
                       color: Colors.red,
                       fontWeight: FontWeight.w600,
                     ),

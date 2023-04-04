@@ -25,6 +25,7 @@ class _VisitStoreState extends State<VisitStore> {
     final Stream<QuerySnapshot> productsStream = firestore
         .collection('products')
         .where('vendorId', isEqualTo: widget.vendorid)
+        .where('approved', isEqualTo: true)
         .snapshots();
 
     return FutureBuilder<DocumentSnapshot>(
@@ -54,25 +55,30 @@ class _VisitStoreState extends State<VisitStore> {
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
               leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.arrow_back_ios)),
-              toolbarHeight: 80,
-              flexibleSpace: Image.asset(
-                'images/coverimage.jpg',
-                fit: BoxFit.cover,
-              ),
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black54,
+                  )),
+              // toolbarHeight: 30,
+              // flexibleSpace: Image.asset(
+              //   'images/coverimage.jpg',
+              //   fit: BoxFit.cover,
+              // ),
               title: Row(
                 children: [
                   Container(
-                    height: 75,
-                    width: 80,
+                    height: 55,
+                    width: 57,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          width: 4,
-                          color: Colors.white,
+                          width: 2,
+                          color: Colors.cyan,
                         ),
                         borderRadius: BorderRadius.circular(15)),
                     child: ClipRRect(
@@ -85,11 +91,11 @@ class _VisitStoreState extends State<VisitStore> {
                   ),
                   Expanded(
                     child: SizedBox(
-                      height: 80,
+                      // height: 80,
                       width: size.width * 0.7,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                      child: Stack(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -99,6 +105,7 @@ class _VisitStoreState extends State<VisitStore> {
                                   Flexible(
                                     child: Text(
                                       data['bussinessName'].toUpperCase(),
+                                      style: styles(color: Colors.black87),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -137,34 +144,41 @@ class _VisitStoreState extends State<VisitStore> {
                                       ),
                                     ),
                                   )
-                                : Container(
-                                    height: 35,
-                                    width: size.width * 0.3,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: following == true
-                                                ? Colors.teal
-                                                : Colors.red,
-                                            width: 1.5),
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: MaterialButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          following = !following;
-                                        });
-                                      },
-                                      child: following == true
-                                          ? Text('Following',
-                                              style: GoogleFonts.aBeeZee(
-                                                  color: Colors.teal,
-                                                  fontSize: 16))
-                                          : Text(
-                                              'Follow',
-                                              style: GoogleFonts.aBeeZee(
-                                                  color: Colors.red,
-                                                  fontSize: 16),
-                                            ),
+                                : Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Container(
+                                      height: 24,
+                                      width: size.width * 0.24,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: following == true
+                                                  ? Colors.teal
+                                                  : Colors.red,
+                                              width: 1.5),
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: MaterialButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            following = !following;
+                                          });
+                                        },
+                                        child: following == true
+                                            ? Text('Following',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: styles(
+                                                    color: Colors.teal,
+                                                    fontSize: 14))
+                                            : Text(
+                                                'Follow',
+                                                overflow: TextOverflow.ellipsis,
+                                                style: styles(
+                                                    color: Colors.red,
+                                                    fontSize: 14),
+                                              ),
+                                      ),
                                     ),
                                   )
                           ]),
@@ -188,7 +202,7 @@ class _VisitStoreState extends State<VisitStore> {
                       child: Text(
                     'This category \n\n has no items yet !',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: styles(
                         fontSize: 26,
                         color: Colors.yellow.shade900,
                         fontWeight: FontWeight.bold,
@@ -205,71 +219,74 @@ class _VisitStoreState extends State<VisitStore> {
                     crossAxisSpacing: 0,
                     itemBuilder: (BuildContext context, int index) {
                       final productData = snapshot.data!.docs[index];
-                      return GestureDetector(
-                        onTap: productData['approved'] == false
-                            ? null
-                            : () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProductDetail(
-                                              productData: productData,
-                                            )));
-                              },
-                        child: Card(
-                            child: Column(
-                          children: [
-                            productData['approved'] == false
-                                ? Stack(children: [
-                                    Image(
-                                      image: NetworkImage(
-                                          productData['imageUrl'][0]),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Positioned.fill(
-                                        child: Container(
-                                      color: Colors.black87.withOpacity(0.6),
-                                      child: Center(
-                                        child: Text(
-                                          'Out of Stock',
-                                          style: GoogleFonts.righteous(
-                                              fontSize: 16,
-                                              color: Colors.white),
-                                        ),
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: GestureDetector(
+                          onTap: productData['qty'] <= 0
+                              ? null
+                              : () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProductDetail(
+                                                productData: productData,
+                                              )));
+                                },
+                          child: Card(
+                              child: Column(
+                            children: [
+                              productData['qty'] <= 0
+                                  ? Stack(children: [
+                                      Image(
+                                        image: NetworkImage(
+                                            productData['imageUrl'][0]),
+                                        fit: BoxFit.cover,
                                       ),
-                                    ))
-                                  ])
-                                : Container(
-                                    constraints: const BoxConstraints(
-                                      minHeight: 90,
-                                      maxHeight: 150,
-                                      minWidth: double.infinity,
-                                    ),
-                                    child: Hero(
-                                      tag: 'proName${productData['proName']}',
-                                      child: Image(
-                                          image: NetworkImage(
-                                              productData['imageUrl'][0]),
-                                          fit: BoxFit.cover),
-                                    )),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8, top: 8, right: 8),
-                              child: Text(
-                                productData['proName'],
+                                      Positioned.fill(
+                                          child: Container(
+                                        color: Colors.black87.withOpacity(0.6),
+                                        child: Center(
+                                          child: Text(
+                                            'Out of Stock',
+                                            style: styles(
+                                                fontSize: 16,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ))
+                                    ])
+                                  : Container(
+                                      constraints: const BoxConstraints(
+                                        minHeight: 90,
+                                        maxHeight: 150,
+                                        minWidth: double.infinity,
+                                      ),
+                                      child: Hero(
+                                        tag: 'proName${productData['proName']}',
+                                        child: Image(
+                                            image: NetworkImage(
+                                                productData['imageUrl'][0]),
+                                            fit: BoxFit.cover),
+                                      )),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, top: 8, right: 8),
+                                child: Text(
+                                  productData['proName'],
+                                  style: GoogleFonts.righteous(fontSize: 14),
+                                ),
+                              ),
+                              Text(
+                                '฿${productData['price'].toStringAsFixed(2)}',
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.righteous(fontSize: 14),
                               ),
-                            ),
-                            Text(
-                              '฿${productData['price'].toStringAsFixed(2)}',
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.righteous(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            )
-                          ],
-                        )),
+                              const SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          )),
+                        ),
                       );
                     },
                     staggeredTileBuilder: (context) =>

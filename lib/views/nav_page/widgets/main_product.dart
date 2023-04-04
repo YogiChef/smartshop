@@ -16,7 +16,7 @@ class MainProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _productStream = FirebaseFirestore.instance
         .collection('products')
-        // .where('approved', isEqualTo: true)
+        .where('approved', isEqualTo: true)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
       stream: _productStream,
@@ -41,7 +41,7 @@ class MainProductPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
                 return GestureDetector(
-                  onTap: productData['approved'] == false
+                  onTap: productData['qty'] <= 0
                       ? null
                       : () {
                           Navigator.push(
@@ -54,7 +54,7 @@ class MainProductPage extends StatelessWidget {
                   child: Card(
                       child: Column(
                     children: [
-                      productData['approved'] == false
+                      productData['qty'] <= 0
                           ? Stack(children: [
                               Image(
                                 image: NetworkImage(productData['imageUrl'][0]),

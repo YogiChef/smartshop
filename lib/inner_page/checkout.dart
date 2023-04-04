@@ -2,12 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:smartshop/address/book_address.dart';
 import 'package:smartshop/services/service_firebase.dart';
-import 'package:uuid/uuid.dart';
 import '../../providers/cart_provider.dart';
-import '../views/buyers/main_page.dart';
 import 'edit_profile.dart';
 
 class CheckOutPage extends StatefulWidget {
@@ -21,7 +19,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   @override
   Widget build(BuildContext context) {
     final CartProvider _cartProvider = Provider.of<CartProvider>(context);
-    CollectionReference users = FirebaseFirestore.instance.collection('buyers');
+    CollectionReference users = firestore.collection('buyers');
 
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(auth.currentUser!.uid).get(),
@@ -43,7 +41,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
               title: Text(
                 'Checkout',
                 style:
-                    GoogleFonts.righteous(fontSize: 20, color: Colors.black87),
+                    styles(fontSize: 20, color: Colors.black87),
               ),
               centerTitle: true,
               elevation: 0,
@@ -56,6 +54,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     Icons.arrow_back,
                     color: Colors.black54,
                   )),
+                 
             ),
             body: ListView.builder(
                 shrinkWrap: true,
@@ -87,13 +86,24 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   children: [
                                     Text(
                                       cartData.proName,
-                                      style: GoogleFonts.righteous(
+                                      style: styles(
                                           fontSize: 16, color: Colors.black54),
                                     ),
-                                    Text(
-                                      cartData.price.toStringAsFixed(2),
-                                      style: GoogleFonts.righteous(
-                                          fontSize: 16, color: Colors.red),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${cartData.price.toStringAsFixed(2)} x ${cartData.quantity}  ',
+                                          style: styles(
+                                              fontSize: 16, color: Colors.red),
+                                        ),
+                                        Text(
+                                          '${cartData.price * cartData.quantity.floor()}',
+                                          style: styles(
+                                              fontSize: 16, color: Colors.red),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(
                                       height: 24,
@@ -104,7 +114,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                         onPressed: () {},
                                         child: Text(
                                           cartData.productSize,
-                                          style: GoogleFonts.righteous(
+                                          style: styles(
                                               color: Colors.white),
                                         ),
                                       ),
@@ -126,7 +136,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
                       'Total:  ฿${_cartProvider.totalPrice.toStringAsFixed(2)}',
-                      style: GoogleFonts.righteous(
+                      style: styles(
                           fontSize: 18,
                           fontWeight: FontWeight.w200,
                           color: Colors.red),
@@ -135,76 +145,41 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: data['address'] == ''
-                        ? TextButton(
-                            onPressed: () {
-                              Navigator.push(
+                        ? ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.cyan.shade500,
+                            ),
+                            label: Text(
+                              'Add Address',
+                              style: styles(fontSize: 16),
+                            ),
+                            onPressed: () async {                             
+                                  Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => EditProfile(
                                             userData: data,
-                                          )));
+                                          )));                              
                             },
-                            child: Text(
-                              'Enter Billing Address',
-                              style: GoogleFonts.righteous(
-                                  fontSize: 18, color: Colors.cyan.shade400),
-                            ))
+                            icon: const Icon(
+                              Icons.pin_drop_outlined,
+                              size: 20,
+                            ),
+                          )                        
                         : ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.yellow.shade900,
                             ),
                             label: Text(
                               'Place Order ',
-                              style: GoogleFonts.righteous(fontSize: 16),
+                              style: styles(fontSize: 16),
                             ),
-                            onPressed: () async {
-                              _cartProvider.getCartItem.forEach((key, item) {
-                                final orderId = const Uuid().v4();
-
-                                firestore
-                                    .collection('orders')
-                                    .doc(orderId)
-                                    .set({
-                                  'orderId': orderId,
-                                  'vendorId': item.venderId,
-                                  'email': data['email'],
-                                  'phone': data['phone'],
-                                  'address': data['address'],
-                                  'buyerId': data['buyerId'],
-                                  'fullName': data['fullName'],
-                                  'buyerImage': data['profileImage'],
-                                  'proName': item.proName,
-                                  'price': item.price,
-                                  'proId': item.proId,
-                                  'productImage': item.imageUrl,
-                                  'qty': item.quantity,
-                                  'productSize': item.productSize,
-                                  'scheduleDate': item.scheduleDate,
-                                  'oderDate': DateTime.now(),
-                                  'accepted': false,
-                                }).whenComplete(() async {
-                                  firestore.runTransaction((transaction) async {
-                                    DocumentReference rf = FirebaseFirestore
-                                        .instance
-                                        .collection('products')
-                                        .doc(item.proId);
-                                    DocumentSnapshot spshot =
-                                        await transaction.get(rf);
-                                    transaction.update(rf,
-                                        {'qty': spshot['qty'] - item.quantity});
-                                  });
-                                  setState(() {
-                                    _cartProvider.getCartItem.clear();
-                                  });
-
+                            onPressed: () async {                             
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const MainPage())).whenComplete(
-                                      () => Navigator.pop(context));
-                                });
-                              });
+                                              const AddressBook()));                               
                             },
                             icon: const Icon(
                               Icons.padding,

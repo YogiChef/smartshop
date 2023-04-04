@@ -7,6 +7,7 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 import '../../../products/product_detail.dart';
+import '../../../services/service_firebase.dart';
 
 class MainCategoryPage extends StatelessWidget {
   const MainCategoryPage({
@@ -20,6 +21,7 @@ class MainCategoryPage extends StatelessWidget {
     final Stream<QuerySnapshot> _categoryStream = FirebaseFirestore.instance
         .collection('products')
         .where('category', isEqualTo: prorist['categoryName'])
+        .where('approved', isEqualTo: true)
         .snapshots();
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +64,7 @@ class MainCategoryPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final productData = snapshot.data!.docs[index];
                   return GestureDetector(
-                    onTap: productData['approved'] == false
+                    onTap: productData['qty'] <= 0
                         ? null
                         : () {
                             Navigator.push(
@@ -75,7 +77,7 @@ class MainCategoryPage extends StatelessWidget {
                     child: Card(
                         child: Column(
                       children: [
-                        productData['approved'] == false
+                        productData['qty'] <= 0
                             ? Stack(children: [
                                 Image(
                                   image:
@@ -87,8 +89,8 @@ class MainCategoryPage extends StatelessWidget {
                                   color: Colors.black87.withOpacity(0.6),
                                   child: Center(
                                     child: Text(
-                                      'Out of Stock',
-                                      style: GoogleFonts.righteous(
+                                      'Out of Sevice',
+                                      style: styles(
                                           fontSize: 20, color: Colors.white),
                                     ),
                                   ),
@@ -112,13 +114,13 @@ class MainCategoryPage extends StatelessWidget {
                               const EdgeInsets.only(left: 8, top: 8, right: 8),
                           child: Text(
                             productData['proName'],
-                            style: GoogleFonts.righteous(fontSize: 18),
+                            style: styles(fontSize: 18),
                           ),
                         ),
                         Text(
                           '฿${productData['price'].toStringAsFixed(2)}',
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.righteous(fontSize: 18),
+                          style: styles(fontSize: 18),
                         ),
                         const SizedBox(
                           height: 10,

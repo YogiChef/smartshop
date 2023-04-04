@@ -2,9 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smartshop/views/nav_page/widgets/category_home.dart';
 import 'package:smartshop/views/nav_page/widgets/main_product.dart';
+
+import '../../../services/service_firebase.dart';
 
 class CategoryText extends StatefulWidget {
   const CategoryText({super.key});
@@ -28,7 +29,7 @@ class _CategoryTextState extends State<CategoryText> {
           SizedBox(
             child: Text(
               'Categories',
-              style: GoogleFonts.righteous(fontSize: 18, color: Colors.black54),
+              style: styles(fontSize: 18, color: Colors.black54),
             ),
           ),
           StreamBuilder<QuerySnapshot>(
@@ -84,7 +85,7 @@ class _CategoryTextState extends State<CategoryText> {
                                       const EdgeInsets.symmetric(horizontal: 8),
                                   label: Text(
                                     categoryData['categoryName'],
-                                    style: GoogleFonts.righteous(
+                                    style: styles(
                                         color: Colors.white, fontSize: 14),
                                   )),
                             );

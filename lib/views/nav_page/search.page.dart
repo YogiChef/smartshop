@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../products/product_detail.dart';
+import '../../services/service_firebase.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -46,7 +47,9 @@ class _SearchPageState extends State<SearchPage> {
                         decoration: const BoxDecoration(
                           // border: Border.all(width: 1, color: Colors.red),
                           image: DecorationImage(
-                            image: AssetImage('images/search.png',),
+                            image: AssetImage(
+                              'images/search.png',
+                            ),
                           ),
                         ),
                       ),
@@ -94,14 +97,16 @@ class SearchModel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetail(
-                      productData: e,
-                    )));
-      },
+      onTap: e['qty'] <= 0
+          ? null
+          : () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProductDetail(
+                            productData: e,
+                          )));
+            },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
         child: Container(
@@ -113,17 +118,38 @@ class SearchModel extends StatelessWidget {
             padding: const EdgeInsets.only(right: 10),
             child: Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: SizedBox(
-                    height: 60,
-                    width: 80,
-                    child: Image(
-                      image: NetworkImage(e['imageUrl'][0]),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                e['qty'] <= 0
+                    ? Stack(children: [
+                        SizedBox(
+                          height: 60,
+                          width: 80,
+                          child: Image(
+                            image: NetworkImage(e['imageUrl'][0]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned.fill(
+                            child: Container(
+                          color: Colors.black87.withOpacity(0.6),
+                          child: Center(
+                            child: Text(
+                              'Out of Stock',
+                              style: styles(fontSize: 12, color: Colors.white),
+                            ),
+                          ),
+                        ))
+                      ])
+                    : ClipRRect(
+                        // borderRadius: BorderRadius.circular(5),
+                        child: SizedBox(
+                          height: 60,
+                          width: 80,
+                          child: Image(
+                            image: NetworkImage(e['imageUrl'][0]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                 const SizedBox(
                   width: 10,
                 ),

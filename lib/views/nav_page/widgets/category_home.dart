@@ -7,6 +7,8 @@ import 'package:smartshop/products/product_detail.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
+import '../../../services/service_firebase.dart';
+
 class CategoryHome extends StatelessWidget {
   final String categoryName;
   const CategoryHome({super.key, required this.categoryName});
@@ -16,6 +18,7 @@ class CategoryHome extends StatelessWidget {
     final Stream<QuerySnapshot> _productStream = FirebaseFirestore.instance
         .collection('products')
         .where('category', isEqualTo: categoryName)
+        .where('approved', isEqualTo: true)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
       stream: _productStream,
@@ -40,7 +43,7 @@ class CategoryHome extends StatelessWidget {
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
                 return GestureDetector(
-                  onTap: productData['approved'] == false
+                  onTap: productData['qty'] <= 0
                       ? null
                       : () {
                           Navigator.push(
@@ -53,37 +56,40 @@ class CategoryHome extends StatelessWidget {
                   child: Card(
                       child: Column(
                     children: [
-                      productData['approved'] == false
-                          ? Stack(children: [
-                              Image(
-                                image: NetworkImage(productData['imageUrl'][0]),
-                                fit: BoxFit.cover,
-                              ),
-                              Positioned.fill(
-                                  child: Container(
-                                color: Colors.black87.withOpacity(0.6),
-                                child: Center(
-                                  child: Text(
-                                    'Out of Stock',
-                                    style: GoogleFonts.righteous(
-                                        fontSize: 20, color: Colors.white),
-                                  ),
-                                ),
-                              ))
-                            ])
-                          : Container(
-                              constraints: const BoxConstraints(
-                                minHeight: 120,
-                                maxHeight: 250,
-                                minWidth: double.infinity,
-                              ),
-                              child: Hero(
-                                tag: 'proName${productData['proName']}',
-                                child: Image(
+                      Container(
+                          constraints: const BoxConstraints(
+                            minHeight: 120,
+                            maxHeight: 250,
+                            minWidth: double.infinity,
+                          ),
+                          child: Hero(
+                            tag: 'proName${productData['proName']}',
+                            child: productData['qty'] <= 0
+                                ? Stack(children: [
+                                    Image(
+                                      image: NetworkImage(
+                                          productData['imageUrl'][0]),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Positioned.fill(
+                                        child: Container(
+                                     
+                                      color: Colors.black87.withOpacity(0.6),
+                                      child: Center(
+                                        child: Text(
+                                          'Out of Stock',
+                                          style: styles(
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ))
+                                  ])
+                                : Image(
                                     image: NetworkImage(
                                         productData['imageUrl'][0]),
                                     fit: BoxFit.cover),
-                              )),
+                          )),
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 8, top: 8, right: 8),
@@ -95,7 +101,7 @@ class CategoryHome extends StatelessWidget {
                       Text(
                         '฿${productData['price'].toStringAsFixed(2)}',
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.righteous(fontSize: 18),
+                        style: styles(fontSize: 18),
                       ),
                       const SizedBox(
                         height: 10,

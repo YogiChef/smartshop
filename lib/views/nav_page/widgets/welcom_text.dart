@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../../services/service_firebase.dart';
 
 class WelcomeText extends StatelessWidget {
   const WelcomeText({
@@ -17,7 +17,7 @@ class WelcomeText extends StatelessWidget {
         children: [
           Text(
             'Howdy , What Are You\nLooking For ',
-            style: GoogleFonts.righteous(
+            style: styles(
               fontSize: 22,
               fontWeight: FontWeight.w400,
             ),

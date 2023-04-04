@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../services/service_firebase.dart';
 import 'package:intl/intl.dart';
 
@@ -25,7 +24,7 @@ class _OrderPageState extends State<OrderPage> {
         backgroundColor: Colors.yellow.shade900,
         title: Text(
           'Orders ',
-          style: GoogleFonts.righteous(fontSize: 20),
+          style: styles(fontSize: 20),
         ),
         elevation: 0,
         centerTitle: true,
@@ -38,7 +37,34 @@ class _OrderPageState extends State<OrderPage> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("Loading");
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.yellow.shade900,
+            ));
+          }
+          if (snapshot.data!.docs.isEmpty) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(30.0),
+                  child: Icon(
+                    Icons.description_outlined,
+                    size: 100,
+                  ),
+                ),
+                Center(
+                    child: Text(
+                  'This orders \n has no items yet !',
+                  textAlign: TextAlign.center,
+                  style: styles(
+                      fontSize: 26,
+                      color: Colors.yellow.shade900,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5),
+                )),
+              ],
+            );
           }
 
           return ListView(
@@ -68,26 +94,29 @@ class _OrderPageState extends State<OrderPage> {
                         title: document['accepted'] == true
                             ? Text(
                                 'Accepted',
-                                style: GoogleFonts.righteous(
-                                    fontSize: 16, color: Colors.green),
+                                style:
+                                    styles(fontSize: 16, color: Colors.green),
                               )
                             : Text(
                                 'Not Accepted',
-                                style: GoogleFonts.righteous(
-                                    fontSize: 16, color: Colors.grey),
+                                style: styles(fontSize: 16, color: Colors.grey),
                               ),
-                        subtitle: Text(
-                          DateFormat('dd/MM/yyyy - hh:mm')
-                              .format(document['oderDate'].toDate()),
-                          style: GoogleFonts.righteous(
-                              fontSize: 14,
-                              color: document['accepted'] == true
-                                  ? Colors.green
-                                  : Colors.grey),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              DateFormat('dd/MM/yyyy - hh:mm')
+                                  .format(document['oderDate'].toDate()),
+                              style: styles(
+                                  fontSize: 14,
+                                  color: document['accepted'] == true
+                                      ? Colors.green
+                                      : Colors.grey),
+                            ),
+                          ],
                         ),
                         trailing: Text(
                           'Amount: ฿${document['price'] * document['qty'].floor()} ',
-                          style: GoogleFonts.righteous(
+                          style: styles(
                               fontSize: 14,
                               color: document['accepted'] == true
                                   ? Colors.green
@@ -97,8 +126,7 @@ class _OrderPageState extends State<OrderPage> {
                       ExpansionTile(
                         title: Text(
                           'Order Datails',
-                          style: GoogleFonts.righteous(
-                              fontSize: 16, color: Colors.black54),
+                          style: styles(fontSize: 16, color: Colors.black54),
                         ),
                         // subtitle: Text('View'),
                         children: [
@@ -128,12 +156,12 @@ class _OrderPageState extends State<OrderPage> {
                                   children: [
                                     Text(
                                       'Quantity',
-                                      style: GoogleFonts.righteous(
+                                      style: styles(
                                           fontSize: 16, color: Colors.black54),
                                     ),
                                     Text(
                                       document['qty'].toString(),
-                                      style: GoogleFonts.righteous(
+                                      style: styles(
                                           fontSize: 14, color: Colors.black54),
                                     )
                                   ],
@@ -141,7 +169,7 @@ class _OrderPageState extends State<OrderPage> {
                                 document['accepted'] == true
                                     ? Text(
                                         'Delivery Date: ${DateFormat('dd/MM/yyyy - hh:mm').format(document['scheduleDate'].toDate())}',
-                                        style: GoogleFonts.righteous(
+                                        style: styles(
                                             fontSize: 14,
                                             color: Colors.yellow.shade900),
                                       )
@@ -149,8 +177,7 @@ class _OrderPageState extends State<OrderPage> {
                                 ListTile(
                                     title: Text(
                                       'Buyer Details',
-                                      style:
-                                          GoogleFonts.righteous(fontSize: 16),
+                                      style: styles(fontSize: 16),
                                     ),
                                     subtitle: Column(
                                         mainAxisAlignment:
@@ -160,25 +187,25 @@ class _OrderPageState extends State<OrderPage> {
                                         children: [
                                           Text(
                                             document['fullName'],
-                                            style: GoogleFonts.righteous(
+                                            style: styles(
                                                 fontSize: 14,
                                                 color: Colors.black54),
                                           ),
                                           Text(
                                             document['phone'],
-                                            style: GoogleFonts.righteous(
+                                            style: styles(
                                                 fontSize: 14,
                                                 color: Colors.black54),
                                           ),
                                           Text(
                                             document['email'],
-                                            style: GoogleFonts.righteous(
+                                            style: styles(
                                                 fontSize: 14,
                                                 color: Colors.black54),
                                           ),
                                           Text(
                                             document['address'],
-                                            style: GoogleFonts.righteous(
+                                            style: styles(
                                                 fontSize: 14,
                                                 color: Colors.black54),
                                           )

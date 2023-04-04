@@ -1,6 +1,5 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,9 +21,7 @@ class _BrandnerWidgetState extends State<BrandnerWidget> {
   getBanners() {
     return firestore.collection('banners').get().then((QuerySnapshot snapshot) {
       for (var doc in snapshot.docs) {
-        setState(() {
-          _bannerImage.add(doc['image']);
-        });
+        _bannerImage.add(doc['image']);
       }
     });
   }
