@@ -16,7 +16,9 @@ class HomePage extends StatelessWidget {
         SearchIputWidget(),
         BrandnerWidget(),
         Padding(
-          padding: EdgeInsets.only(bottom: 4),
+          padding: EdgeInsets.only(
+            bottom: 4,
+          ),
           child: CategoryText(),
         ),
       ],

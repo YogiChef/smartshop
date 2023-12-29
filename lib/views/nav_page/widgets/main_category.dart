@@ -41,97 +41,107 @@ class MainCategoryPage extends StatelessWidget {
               color: Colors.black87,
             )),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _categoryStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Center(child: Text('Something went wrong'));
-          }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: _categoryStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return const Center(child: Text('Something went wrong'));
+            }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("");
-          }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Text("");
+            }
 
-          return Container(
-              height: 320,
-              decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(0)),
-              child: StaggeredGridView.countBuilder(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  final productData = snapshot.data!.docs[index];
-                  return GestureDetector(
-                    onTap: productData['qty'] <= 0
-                        ? null
-                        : () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductDetail(
-                                          productData: productData,
-                                        )));
-                          },
-                    child: Card(
-                        child: Column(
-                      children: [
-                        productData['qty'] <= 0
-                            ? Stack(children: [
-                                Image(
-                                  image:
-                                      NetworkImage(productData['imageUrl'][0]),
-                                  fit: BoxFit.cover,
-                                ),
-                                Positioned.fill(
-                                    child: Container(
-                                  color: Colors.black87.withOpacity(0.6),
-                                  child: Center(
-                                    child: Text(
-                                      'Out of Sevice',
-                                      style: styles(
-                                          fontSize: 20, color: Colors.white),
-                                    ),
+            return Container(
+                height: 320,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(0)),
+                child: StaggeredGridView.countBuilder(
+                  shrinkWrap: true,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 6,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    final productData = snapshot.data!.docs[index];
+                    return GestureDetector(
+                      onTap: productData['qty'] <= 0
+                          ? null
+                          : () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductDetail(
+                                            productData: productData,
+                                          )));
+                            },
+                      child: Column(
+                        children: [
+                          productData['qty'] <= 0
+                              ? Stack(children: [
+                                  Image(
+                                    image: NetworkImage(
+                                        productData['imageUrl'][0]),
+                                    fit: BoxFit.cover,
                                   ),
-                                ))
-                              ])
-                            : Container(
-                                constraints: const BoxConstraints(
-                                  minHeight: 120,
-                                  maxHeight: 250,
-                                  minWidth: double.infinity,
-                                ),
-                                child: Hero(
-                                  tag: 'proName${productData['proName']}',
-                                  child: Image(
-                                      image: NetworkImage(
-                                          productData['imageUrl'][0]),
-                                      fit: BoxFit.cover),
-                                )),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 8, top: 8, right: 8),
-                          child: Text(
-                            productData['proName'],
-                            style: styles(fontSize: 18),
+                                  Positioned.fill(
+                                      child: Container(
+                                    color: Colors.black87.withOpacity(0.6),
+                                    child: Center(
+                                      child: Text(
+                                        'Out of Sevice',
+                                        textAlign: TextAlign.center,
+                                        style: styles(
+                                            fontSize: 20, color: Colors.white),
+                                      ),
+                                    ),
+                                  ))
+                                ])
+                              : Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  // height: 90,
+                                  width: double.maxFinite,
+                                  constraints: const BoxConstraints(
+                                    minHeight: 90,
+                                    maxHeight: 200,
+                                    minWidth: double.infinity,
+                                  ),
+                                  child: Hero(
+                                    tag: 'proName${productData['proName']}',
+                                    child: Image(
+                                        image: NetworkImage(
+                                            productData['imageUrl'][0]),
+                                        fit: BoxFit.cover),
+                                  )),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 5, top: 7, right: 5),
+                            child: Text(
+                              productData['proName'],
+                              overflow: TextOverflow.ellipsis,
+                              style: styles(fontSize: 16),
+                            ),
                           ),
-                        ),
-                        Text(
-                          '฿${productData['price'].toStringAsFixed(2)}',
-                          overflow: TextOverflow.ellipsis,
-                          style: styles(fontSize: 18),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    )),
-                  );
-                },
-                staggeredTileBuilder: (context) => const StaggeredTile.fit(1),
-              ));
-        },
+                          Text(
+                            '฿${productData['price'].toStringAsFixed(2)}',
+                            overflow: TextOverflow.ellipsis,
+                            style: styles(fontSize: 16),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                  staggeredTileBuilder: (context) => const StaggeredTile.fit(1),
+                ));
+          },
+        ),
       ),
     );
   }

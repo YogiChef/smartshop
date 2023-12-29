@@ -21,6 +21,18 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, 'customer_home');
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  size: 20,
+                  color: Colors.black,
+                )),
+          ),
           title: SizedBox(
             height: 40,
             child: CupertinoSearchTextField(
@@ -33,59 +45,64 @@ class _SearchPageState extends State<SearchPage> {
               },
             ),
           )),
-      body: searchInput == ''
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 200),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: const BoxDecoration(
-                          // border: Border.all(width: 1, color: Colors.red),
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'images/search.png',
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: searchInput == ''
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 200),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 120,
+                          height: 120,
+                          decoration: const BoxDecoration(
+                            // border: Border.all(width: 1, color: Colors.red),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'images/search.png',
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Text(
-                        'Search for\nany products',
-                        // maxLines: 2,
-                        style: GoogleFonts.righteous(
-                            fontSize: 30, color: Colors.yellow.shade900),
-                      ),
-                    ],
+                        Text(
+                          'Search for\nany products',
+                          // maxLines: 2,
+                          style: GoogleFonts.righteous(
+                              fontSize: 30, color: Colors.yellow.shade900),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          : StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('products').snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Material(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
+              )
+            : StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('products')
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Material(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
 
-                final result = snapshot.data!.docs.where(
-                  (e) => e['proName']
-                      .toLowerCase()
-                      .contains(searchInput.toLowerCase()),
-                );
-                return ListView(
-                  children: result.map((e) => SearchModel(e: e)).toList(),
-                );
-              }),
+                  final result = snapshot.data!.docs.where(
+                    (e) => e['proName']
+                        .toLowerCase()
+                        .contains(searchInput.toLowerCase()),
+                  );
+                  return ListView(
+                    children: result.map((e) => SearchModel(e: e)).toList(),
+                  );
+                }),
+      ),
     );
   }
 }
@@ -169,11 +186,11 @@ class SearchModel extends StatelessWidget {
                       e['description'],
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
+                    // const SizedBox(
+                    //   height: 12,
+                    // ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Row(
@@ -186,12 +203,25 @@ class SearchModel extends StatelessWidget {
                                 color:
                                     e['qty'] <= 10 ? Colors.red : Colors.grey),
                           ),
-                          Text(
-                            e['qty'].toString(),
-                            style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    e['qty'] <= 10 ? Colors.red : Colors.grey),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.shopping_basket_outlined,
+                                size: 20,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                e['qty'].toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: e['qty'] <= 10
+                                        ? Colors.red
+                                        : Colors.grey),
+                              ),
+                            ],
                           ),
                         ],
                       ),

@@ -6,6 +6,7 @@ import '../../../services/service_firebase.dart';
 class MyAlertDialog {
   static void showMyDialog({
     required BuildContext context,
+    required ImageProvider<Object> img,
     required String title,
     required String contant,
     required Function() tabNo,
@@ -14,7 +15,14 @@ class MyAlertDialog {
     showCupertinoDialog<void>(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text(title),
+              title: Column(children: [
+                Image(
+                  image: img,
+                  width: 120,
+                  height: 100,
+                ),
+                Text(title),
+              ]),
               content: Text(contant),
               actions: <CupertinoDialogAction>[
                 CupertinoDialogAction(
@@ -48,7 +56,7 @@ class LoginDialog {
                   },
                 ),
                 CupertinoDialogAction(
-                  child:  Text(
+                  child: Text(
                     'Log in',
                     style: styles(
                       color: Colors.red,

@@ -77,31 +77,97 @@ class _OrderPageState extends State<OrderPage> {
                       borderRadius: BorderRadius.circular(5)),
                   child: Column(
                     children: [
-                      ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.grey.shade300,
-                          radius: 14,
-                          child: document['accepted'] == true
-                              ? const Icon(
-                                  Icons.delivery_dining,
-                                  color: Colors.green,
-                                )
-                              : const Icon(
-                                  Icons.access_time,
-                                  color: Colors.grey,
-                                ),
+                      // ListTile(
+                      //   leading: CircleAvatar(
+                      //     backgroundColor: Colors.grey.shade300,
+                      //     radius: 14,
+                      //     child: document['accepted'] == true
+                      //         ? const Icon(
+                      //             Icons.delivery_dining,
+                      //             color: Colors.green,
+                      //           )
+                      //         : const Icon(
+                      //             Icons.access_time,
+                      //             color: Colors.grey,
+                      //           ),
+                      //   ),
+                      //   title: document['accepted'] == true
+                      //       ? Text(
+                      //           'Accepted',
+                      //           style:
+                      //               styles(fontSize: 16, color: Colors.green),
+                      //         )
+                      //       : Text(
+                      //           'Not Accepted',
+                      //           style: styles(fontSize: 16, color: Colors.grey),
+                      //         ),
+                      //   subtitle: Row(
+                      //     children: [
+                      //       Text(
+                      //         DateFormat('dd/MM/yyyy - hh:mm')
+                      //             .format(document['oderDate'].toDate()),
+                      //         style: styles(
+                      //             fontSize: 14,
+                      //             color: document['accepted'] == true
+                      //                 ? Colors.green
+                      //                 : Colors.grey),
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   trailing: Text(
+                      //     'Amount: ฿${document['price'] * document['qty'].floor()} ',
+                      //     style: styles(
+                      //         fontSize: 14,
+                      //         color: document['accepted'] == true
+                      //             ? Colors.green
+                      //             : Colors.grey),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.grey.shade300,
+                              radius: 14,
+                              child: document['accepted'] == true
+                                  ? const Icon(
+                                      Icons.delivery_dining,
+                                      color: Colors.green,
+                                    )
+                                  : const Icon(
+                                      Icons.access_time,
+                                      color: Colors.grey,
+                                    ),
+                            ),
+                            document['accepted'] == true
+                                ? Text(
+                                    'Accepted',
+                                    style: styles(
+                                        fontSize: 16, color: Colors.green),
+                                  )
+                                : Text(
+                                    'Not Accepted',
+                                    style: styles(
+                                        fontSize: 16, color: Colors.grey),
+                                  ),
+                            Text(
+                              'Amount: ฿${document['price'] * document['qty'].floor()} ',
+                              style: styles(
+                                  fontSize: 14,
+                                  color: document['accepted'] == true
+                                      ? Colors.green
+                                      : Colors.grey),
+                            ),
+                          ],
                         ),
-                        title: document['accepted'] == true
-                            ? Text(
-                                'Accepted',
-                                style:
-                                    styles(fontSize: 16, color: Colors.green),
-                              )
-                            : Text(
-                                'Not Accepted',
-                                style: styles(fontSize: 16, color: Colors.grey),
-                              ),
-                        subtitle: Row(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 90,
+                        ),
+                        child: Row(
                           children: [
                             Text(
                               DateFormat('dd/MM/yyyy - hh:mm')
@@ -114,19 +180,15 @@ class _OrderPageState extends State<OrderPage> {
                             ),
                           ],
                         ),
-                        trailing: Text(
-                          'Amount: ฿${document['price'] * document['qty'].floor()} ',
-                          style: styles(
-                              fontSize: 14,
-                              color: document['accepted'] == true
-                                  ? Colors.green
-                                  : Colors.grey),
-                        ),
                       ),
                       ExpansionTile(
                         title: Text(
                           'Order Datails',
-                          style: styles(fontSize: 16, color: Colors.black54),
+                          style: styles(
+                              fontSize: 16,
+                              color: document['accepted'] == true
+                                  ? Colors.green
+                                  : Colors.black54),
                         ),
                         // subtitle: Text('View'),
                         children: [

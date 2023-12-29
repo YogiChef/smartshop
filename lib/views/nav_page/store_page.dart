@@ -83,6 +83,7 @@ class _StorePageState extends State<StorePage> {
                               ? MyAlertDialog.showMyDialog(
                                   contant: 'Please Sigin ',
                                   context: context,
+                                  img: const AssetImage('images/login.jpeg'),
                                   tabNo: () {
                                     Navigator.pop(context);
                                   },

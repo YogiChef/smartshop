@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,13 +10,15 @@ class CartProvider with ChangeNotifier {
     return _cartItems;
   }
 
+  
+
   double get totalPrice {
     var total = 0.0;
 
     _cartItems.forEach((key, value) {
       total += value.price * value.quantity;
     });
-    return total;
+    return  total ;
   }
 
   void addProductToCart(
@@ -27,6 +28,7 @@ class CartProvider with ChangeNotifier {
     int quantity,
     int qty,
     double price,
+    double charge,
     String venderId,
     String productSize,
     Timestamp scheduleDate,
@@ -41,6 +43,7 @@ class CartProvider with ChangeNotifier {
                 quantity: exitingCart.quantity + 1,
                 proqty: exitingCart.proqty,
                 price: exitingCart.price,
+                charge: exitingCart.charge,
                 venderId: exitingCart.venderId,
                 productSize: exitingCart.productSize,
                 scheduleDate: exitingCart.scheduleDate,
@@ -56,6 +59,7 @@ class CartProvider with ChangeNotifier {
               quantity: quantity,
               proqty: qty,
               price: price,
+              charge: charge,
               venderId: venderId,
               productSize: productSize,
               scheduleDate: scheduleDate));

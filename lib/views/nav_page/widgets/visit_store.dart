@@ -62,14 +62,9 @@ class _VisitStoreState extends State<VisitStore> {
                     Navigator.pop(context);
                   },
                   icon: const Icon(
-                    Icons.arrow_back_ios,
+                    Icons.arrow_back,
                     color: Colors.black54,
                   )),
-              // toolbarHeight: 30,
-              // flexibleSpace: Image.asset(
-              //   'images/coverimage.jpg',
-              //   fit: BoxFit.cover,
-              // ),
               title: Row(
                 children: [
                   Container(
@@ -91,97 +86,92 @@ class _VisitStoreState extends State<VisitStore> {
                   ),
                   Expanded(
                     child: SizedBox(
-                      // height: 80,
                       width: size.width * 0.7,
-                      child: Stack(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          // crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      data['bussinessName'].toUpperCase(),
-                                      style: styles(color: Colors.black87),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
+                      child: Stack(children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  data['bussinessName'].toUpperCase(),
+                                  style: styles(color: Colors.black87),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                            ),
-                            data['vendorId'] == auth.currentUser!.uid
-                                ? Container(
-                                    height: 30,
-                                    width: size.width * 0.3,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.teal, width: 1.5),
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: MaterialButton(
-                                      onPressed: () {
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) => EditStore(
-                                        //               data: data,
-                                        //             )));
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: const [
-                                          Text('Edit'),
-                                          Icon(
-                                            Icons.edit_outlined,
-                                            color: Colors.black,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Container(
-                                      height: 24,
-                                      width: size.width * 0.24,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: following == true
-                                                  ? Colors.teal
-                                                  : Colors.red,
-                                              width: 1.5),
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      child: MaterialButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            following = !following;
-                                          });
-                                        },
-                                        child: following == true
-                                            ? Text('Following',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: styles(
-                                                    color: Colors.teal,
-                                                    fontSize: 14))
-                                            : Text(
-                                                'Follow',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: styles(
-                                                    color: Colors.red,
-                                                    fontSize: 14),
-                                              ),
-                                      ),
-                                    ),
-                                  )
-                          ]),
+                            ],
+                          ),
+                        ),
+                        data['vendorId'] == auth.currentUser!.uid
+                            ? Container(
+                                height: 30,
+                                width: size.width * 0.3,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.teal, width: 1.5),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: MaterialButton(
+                                  onPressed: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => EditStore(
+                                    //               data: data,
+                                    //             )));
+                                  },
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text('Edit'),
+                                      Icon(
+                                        Icons.edit_outlined,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 24,
+                                  width: size.width * 0.24,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: following == true
+                                              ? Colors.teal
+                                              : Colors.red,
+                                          width: 1.5),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: MaterialButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        following = !following;
+                                      });
+                                    },
+                                    child: following == true
+                                        ? Text('Following',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: styles(
+                                                color: Colors.teal,
+                                                fontSize: 14))
+                                        : Text(
+                                            'Follow',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: styles(
+                                                color: Colors.red,
+                                                fontSize: 14),
+                                          ),
+                                  ),
+                                ),
+                              )
+                      ]),
                     ),
                   ),
                 ],
@@ -215,8 +205,8 @@ class _VisitStoreState extends State<VisitStore> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.docs.length,
                     crossAxisCount: 3,
-                    mainAxisSpacing: 8,
-                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 6,
+                    crossAxisSpacing: 6,
                     itemBuilder: (BuildContext context, int index) {
                       final productData = snapshot.data!.docs[index];
                       return Padding(
@@ -232,8 +222,7 @@ class _VisitStoreState extends State<VisitStore> {
                                                 productData: productData,
                                               )));
                                 },
-                          child: Card(
-                              child: Column(
+                          child: Column(
                             children: [
                               productData['qty'] <= 0
                                   ? Stack(children: [
@@ -255,22 +244,16 @@ class _VisitStoreState extends State<VisitStore> {
                                         ),
                                       ))
                                     ])
-                                  : Container(
-                                      constraints: const BoxConstraints(
-                                        minHeight: 90,
-                                        maxHeight: 150,
-                                        minWidth: double.infinity,
-                                      ),
-                                      child: Hero(
-                                        tag: 'proName${productData['proName']}',
-                                        child: Image(
-                                            image: NetworkImage(
-                                                productData['imageUrl'][0]),
-                                            fit: BoxFit.cover),
-                                      )),
+                                  : Hero(
+                                      tag: 'proName${productData['imageUrl']}',
+                                      child: Image(
+                                          image: NetworkImage(
+                                              productData['imageUrl'][0]),
+                                          fit: BoxFit.cover),
+                                    ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 8, top: 8, right: 8),
+                                    left: 6, top: 8, right: 6),
                                 child: Text(
                                   productData['proName'],
                                   style: GoogleFonts.righteous(fontSize: 14),
@@ -285,7 +268,7 @@ class _VisitStoreState extends State<VisitStore> {
                                 height: 10,
                               )
                             ],
-                          )),
+                          ),
                         ),
                       );
                     },

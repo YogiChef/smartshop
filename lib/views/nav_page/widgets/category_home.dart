@@ -39,6 +39,8 @@ class CategoryHome extends StatelessWidget {
             child: StaggeredGridView.countBuilder(
               shrinkWrap: true,
               crossAxisCount: 2,
+              crossAxisSpacing: 6,
+              mainAxisSpacing: 10,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
@@ -53,13 +55,15 @@ class CategoryHome extends StatelessWidget {
                                         productData: productData,
                                       )));
                         },
-                  child: Card(
-                      child: Column(
+                  child: Column(
                     children: [
                       Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                          // height: 90,
+                          width: double.infinity,
                           constraints: const BoxConstraints(
-                            minHeight: 120,
-                            maxHeight: 250,
+                            minHeight: 90,
+                            maxHeight: 200,
                             minWidth: double.infinity,
                           ),
                           child: Hero(
@@ -73,11 +77,11 @@ class CategoryHome extends StatelessWidget {
                                     ),
                                     Positioned.fill(
                                         child: Container(
-                                     
                                       color: Colors.black87.withOpacity(0.6),
                                       child: Center(
                                         child: Text(
                                           'Out of Stock',
+                                          textAlign: TextAlign.center,
                                           style: styles(
                                               fontSize: 20,
                                               color: Colors.white),
@@ -92,22 +96,26 @@ class CategoryHome extends StatelessWidget {
                           )),
                       Padding(
                         padding:
-                            const EdgeInsets.only(left: 8, top: 8, right: 8),
+                            const EdgeInsets.only(left: 5, top: 7, right: 5),
                         child: Text(
                           productData['proName'],
-                          style: GoogleFonts.righteous(fontSize: 18),
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.righteous(fontSize: 16),
                         ),
                       ),
                       Text(
                         '฿${productData['price'].toStringAsFixed(2)}',
                         overflow: TextOverflow.ellipsis,
-                        style: styles(fontSize: 18),
+                        style: styles(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       )
                     ],
-                  )),
+                  ),
                 );
               },
               staggeredTileBuilder: (context) => const StaggeredTile.fit(1),

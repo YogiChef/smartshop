@@ -9,6 +9,7 @@ class CartAttr with ChangeNotifier {
   int quantity;
   int proqty;
   final double price;
+  final double charge;
   final String venderId;
   final String productSize;
   Timestamp scheduleDate;
@@ -20,6 +21,8 @@ class CartAttr with ChangeNotifier {
     required this.quantity,
     required this.proqty,
     required this.price,
+    required this.charge,
+
     required this.venderId,
     required this.productSize,
     required this.scheduleDate,

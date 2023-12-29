@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:smartshop/views/nav_page/widgets/qr_code.dart';
 import '../../../services/service_firebase.dart';
 
 class WelcomeText extends StatelessWidget {
-  const WelcomeText({
+   const WelcomeText({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 20, right: 10),
+      padding: const EdgeInsets.only(top: 0, left: 20, right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -25,8 +26,13 @@ class WelcomeText extends StatelessWidget {
           SizedBox(
               height: 20,
               child: IconButton(
-                icon: const Icon(IconlyLight.buy),
-                onPressed: () {},
+                icon: const Icon(IconlyLight.scan),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const QrCodePage()));
+                },
               ))
         ],
       ),
@@ -48,9 +54,11 @@ class SearchIputWidget extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(7),
           child: TextField(
+            onTap: () => Navigator.pushReplacementNamed(context, 'search'),
+            readOnly: true,
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                fillColor: Colors.yellow.shade900.withOpacity(0.2),
+                fillColor: Colors.grey.withOpacity(0.2),
                 filled: true,
                 hintText: 'Search For Products',
                 border: const OutlineInputBorder(borderSide: BorderSide.none),

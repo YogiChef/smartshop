@@ -87,8 +87,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                   height: 60,
                                   width: 70,
                                   decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Colors.yellow.shade900),
+                                    border: Border.all(
+                                        color: Colors.yellow.shade900),
                                   ),
                                   child: Image.network(
                                     widget.productData['imageUrl'][index],
@@ -105,16 +105,16 @@ class _ProductDetailState extends State<ProductDetail> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  Center(
-                    child: Text(
-                      widget.productData['price'].toStringAsFixed(2),
-                      style: styles(fontSize: 18),
-                    ),
-                  ),
                   Text(
                     widget.productData['proName'],
                     style: styles(
                       fontSize: 18,
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      '฿${widget.productData['price'].toStringAsFixed(2)}',
+                      style: styles(fontSize: 18, color: Colors.red),
                     ),
                   ),
                   const SizedBox(
@@ -126,21 +126,27 @@ class _ProductDetailState extends State<ProductDetail> {
                             .containsKey(widget.productData['proId'])
                         ? Text(
                             'This item you have in cart already.!',
-                            style: styles(
-                                fontSize: 20, color: Colors.red),
+                            style: styles(fontSize: 20, color: Colors.red),
                           )
                         : ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: widget.productData['size'].length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(right: 4),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 2, vertical: 1),
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30)),
+                                      side: BorderSide(
+                                          width: 1,
+                                          color: Colors.yellow.shade900),
                                       backgroundColor: selectSized !=
                                               widget.productData['size'][index]
-                                          ? Colors.pink.shade500
-                                          : Colors.transparent),
+                                          ? Colors.transparent
+                                          : Colors.yellow.shade900),
                                   onPressed: () {
                                     setState(() {
                                       selectSized =
@@ -150,7 +156,11 @@ class _ProductDetailState extends State<ProductDetail> {
                                   child: Text(
                                     widget.productData['size'][index],
                                     style: styles(
-                                        color: Colors.white),
+                                        color: selectSized !=
+                                                widget.productData['size']
+                                                    [index]
+                                            ? Colors.yellow.shade900
+                                            : Colors.white),
                                   ),
                                 ),
                               );
@@ -168,13 +178,14 @@ class _ProductDetailState extends State<ProductDetail> {
                         Text(
                           DateFormat('dd/MM/yyyy - hh:mm')
                               .format(widget.productData['date'].toDate()),
-                          style: styles(
-                              fontSize: 14, color: Colors.black87),
+                          style: styles(fontSize: 14, color: Colors.black87),
                         )
                       ],
                     ),
                   ),
                   ExpansionTile(
+                    collapsedTextColor: Colors.yellow.shade900,
+                    textColor: Colors.black,
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -193,18 +204,24 @@ class _ProductDetailState extends State<ProductDetail> {
                     children: [
                       Text(
                         widget.productData['description'],
-                        style: styles(
-                            fontSize: 16, color: Colors.black54),
+                        style: styles(fontSize: 16, color: Colors.black54),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       Text(
                         'Quantity:  ${widget.productData['qty'].toString()}',
                         style: styles(
-                            fontSize: 16, color: Colors.black54),
+                            fontSize: 16,
+                            color: widget.productData['qty'] < 10
+                                ? Colors.red
+                                : Colors.black54),
                       ),
                       Text(
-                        'Shipping Charge:  ${widget.productData['shippingCharge'].toString()}',
-                        style: styles(
-                            fontSize: 16, color: Colors.black54),
+                        widget.productData['shippingCharge'] == 0
+                            ? ''
+                            : 'Shipping Charge:  ${widget.productData['shippingCharge'].toStringAsFixed(2)}',
+                        style: styles(fontSize: 16, color: Colors.black54),
                       ),
                       const SizedBox(
                         height: 10,
@@ -239,15 +256,12 @@ class _ProductDetailState extends State<ProductDetail> {
                       1,
                       widget.productData['qty'],
                       widget.productData['price'],
+                      widget.productData['shippingCharge'],
                       widget.productData['vendorId'],
                       selectSized!,
                       widget.productData['date'],
                     );
                     Navigator.pop(context);
-                    // Navigator.pushReplacement(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const MainPage()));
                     Fluttertoast.showToast(
                         msg:
                             'You Added ${widget.productData['proName']} To Your Cart');

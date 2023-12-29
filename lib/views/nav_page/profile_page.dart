@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:smartshop/auth/login_page.dart';
 import 'package:smartshop/inner_page/edit_profile.dart';
 import 'package:smartshop/inner_page/orders_page.dart';
 import 'package:smartshop/services/service_firebase.dart';
+import 'package:smartshop/views/nav_page/cart_page.dart';
 import 'package:smartshop/views/nav_page/widgets/dialog.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -122,6 +124,7 @@ class ProfilePage extends StatelessWidget {
                         MyAlertDialog.showMyDialog(
                             contant: 'Are you sure to log out ',
                             context: context,
+                            img: const AssetImage('images/signout.png'),
                             tabNo: () {
                               Navigator.pop(context);
                             },
@@ -205,15 +208,19 @@ class ProfilePage extends StatelessWidget {
                                               color: Colors.white),
                                         ),
                                         SizedBox(
+                                          height: 35,
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.3,
+                                              0.35,
                                           child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.yellow.shade900,
-                                              ),
+                                                  backgroundColor:
+                                                      Colors.yellow.shade900,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5))),
                                               onPressed: () {
                                                 Navigator.push(
                                                     context,
@@ -250,20 +257,24 @@ class ProfilePage extends StatelessWidget {
                             Positioned(
                                 top: 40,
                                 right: 20,
-                                child: Icon(CupertinoIcons.moon,
-                                    color: Colors.yellow.shade900))
+                                child: CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: Colors.white24,
+                                  child: IconButton(
+                                    icon: Icon(IconlyBold.user2,
+                                        color: Colors.yellow.shade900),
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, ('users'));
+                                    },
+                                  ),
+                                ))
                           ],
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         firstBlock(
-                            onPress: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => const AddressBook()));
-                            },
+                            onPress: () {},
                             icon: Icons.settings,
                             text: 'Settings'),
                         firstBlock(
@@ -272,7 +283,12 @@ class ProfilePage extends StatelessWidget {
                             text: 'Phone',
                             subtitle: data['phone']),
                         firstBlock(
-                            onPress: () {},
+                            onPress: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const CartPage()));
+                            },
                             icon: Icons.shopping_cart,
                             text: 'Cart'),
                         firstBlock(
@@ -289,6 +305,7 @@ class ProfilePage extends StatelessWidget {
                               MyAlertDialog.showMyDialog(
                                   contant: 'Are you sure to log out ',
                                   context: context,
+                                  img: const AssetImage('images/signout.png'),
                                   tabNo: () {
                                     Navigator.pop(context);
                                   },

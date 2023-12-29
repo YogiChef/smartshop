@@ -6,6 +6,7 @@ import 'package:smartshop/views/nav_page/widgets/category_home.dart';
 import 'package:smartshop/views/nav_page/widgets/main_product.dart';
 
 import '../../../services/service_firebase.dart';
+import '../../buyers/main_page.dart';
 
 class CategoryText extends StatefulWidget {
   const CategoryText({super.key});
@@ -22,14 +23,17 @@ class _CategoryTextState extends State<CategoryText> {
     final Stream<QuerySnapshot> _categoryStream =
         FirebaseFirestore.instance.collection('categories').snapshots();
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 0, right: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            child: Text(
-              'Categories',
-              style: styles(fontSize: 18, color: Colors.black54),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Categories',
+                style: styles(fontSize: 18, color: Colors.black54),
+              ),
             ),
           ),
           StreamBuilder<QuerySnapshot>(
@@ -69,6 +73,8 @@ class _CategoryTextState extends State<CategoryText> {
                                 horizontal: 4,
                               ),
                               child: ActionChip(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 0),
                                   shadowColor: Colors.black,
                                   elevation: 4,
                                   backgroundColor: _selectCategory !=
@@ -81,8 +87,8 @@ class _CategoryTextState extends State<CategoryText> {
                                           categoryData['categoryName'];
                                     });
                                   },
-                                  labelPadding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  labelPadding: const EdgeInsets.symmetric(
+                                      horizontal: 8),
                                   label: Text(
                                     categoryData['categoryName'],
                                     style: styles(
@@ -92,10 +98,16 @@ class _CategoryTextState extends State<CategoryText> {
                           }),
                     ),
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainPage()));
+                        },
                         icon: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20,
+                          Icons.replay_outlined,
+                          size: 24,
+                          color: Colors.black45,
                         ))
                   ],
                 ),

@@ -37,6 +37,8 @@ class MainProductPage extends StatelessWidget {
             child: StaggeredGridView.countBuilder(
               shrinkWrap: true,
               crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final productData = snapshot.data!.docs[index];
@@ -51,8 +53,7 @@ class MainProductPage extends StatelessWidget {
                                         productData: productData,
                                       )));
                         },
-                  child: Card(
-                      child: Column(
+                  child: Column(
                     children: [
                       productData['qty'] <= 0
                           ? Stack(children: [
@@ -66,6 +67,7 @@ class MainProductPage extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     'Out of Sevice',
+                                    textAlign: TextAlign.center,
                                     style: GoogleFonts.righteous(
                                         fontSize: 20, color: Colors.white),
                                   ),
@@ -73,13 +75,16 @@ class MainProductPage extends StatelessWidget {
                               ))
                             ])
                           : Container(
+                              padding: const EdgeInsets.only(right: 0, left: 0),
                               constraints: const BoxConstraints(
-                                minHeight: 120,
-                                maxHeight: 250,
+                                minHeight: 90,
+                                maxHeight: 200,
                                 minWidth: double.infinity,
                               ),
+                              // height: 90,
+                              width: double.infinity,
                               child: Hero(
-                                tag: 'proName${productData['proName']}',
+                                tag: 'proName${productData['imageUrl']}',
                                 child: Image(
                                     image: NetworkImage(
                                         productData['imageUrl'][0]),
@@ -87,22 +92,23 @@ class MainProductPage extends StatelessWidget {
                               )),
                       Padding(
                         padding:
-                            const EdgeInsets.only(left: 8, top: 8, right: 8),
+                            const EdgeInsets.only(left: 5, top: 7, right: 5),
                         child: Text(
                           productData['proName'],
-                          style: GoogleFonts.righteous(fontSize: 18),
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.righteous(fontSize: 14),
                         ),
                       ),
                       Text(
                         '฿${productData['price'].toStringAsFixed(2)}',
                         overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.righteous(fontSize: 18),
+                        style: GoogleFonts.righteous(fontSize: 14),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       )
                     ],
-                  )),
+                  ),
                 );
               },
               staggeredTileBuilder: (context) => const StaggeredTile.fit(1),

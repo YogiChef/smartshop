@@ -102,7 +102,7 @@ class _PlaceOrderPageState extends State<PlaceOrderPage> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               const MainPage())).whenComplete(
-                                      () => Navigator.pop(context));
+                                      () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage())));
                                 });
                               });
               },
