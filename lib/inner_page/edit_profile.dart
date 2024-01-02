@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smartshop/services/service_firebase.dart';
 import 'package:uuid/uuid.dart';
 import '../views/nav_page/widgets/input_textfield.dart';
@@ -43,11 +43,17 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    var chooseAddress = countryValue != 'Choose Country' &&
+        stateValue != 'Choose State' &&
+        cityValue != 'Choose City';
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Edit Profile',
-          style: styles(fontSize: 24, color: Colors.black54),
+          style: styles(
+            fontSize: 20,
+          ),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -70,10 +76,7 @@ class _EditProfileState extends State<EditProfile> {
               child: Text(
                 'Create Custorer\'s\n Account',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.righteous(
-                    fontSize: 24,
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.w600),
+                style: styles(fontSize: 20),
               ),
             ),
 
@@ -214,7 +217,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             InputTextfield(
               hintText: 'Enter Your Address',
-              textInputType: TextInputType.phone,
+              textInputType: TextInputType.text,
               prefixIcon: const Icon(
                 Icons.pin_drop_outlined,
                 color: Colors.red,
@@ -267,58 +270,56 @@ class _EditProfileState extends State<EditProfile> {
             ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: SizedBox(
-                width: double.infinity,
-                child: _isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.yellow.shade900,
-                        ),
-                      )
-                    : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.yellow.shade900,
-                        ),
-                        onPressed: () async {
-                          // EasyLoading.show(status: 'Updating..');
-                          if (countryValue != 'Choose Country' &&
-                              stateValue != 'Choose State' &&
-                              cityValue != 'Choose City') {
-                            CollectionReference addresRf = firestore
-                                .collection('buyers')
-                                .doc(auth.currentUser!.uid)
-                                .collection('address');
-                            var addresId = const Uuid().v4();
-                            await addresRf.doc(addresId).set({
-                              'addressId': addresId,
-                              'fullName': fullName.text,
-                              'email': email.text,
-                              'phone': phone.text,
-                              'address': address,
-                              'country': countryValue,
-                              'state': stateValue,
-                              'city': cityValue,
-                              'zipcode': zipcode,
-                              'default': true,
-                            }).whenComplete(() {
-                              // EasyLoading.dismiss();
-                              Navigator.pop(context);
-                            });
-                          } else {
-                            Fluttertoast.showToast(
-                                msg: 'Please set your location');
-                          }
-                        },
-                        child: Text(
-                          'Update',
-                          style: styles(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: _isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.yellow.shade900,
                           ),
-                        )),
-              ),
-            ),
+                        )
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.yellow.shade900,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5))),
+                          onPressed: () async {
+                            EasyLoading.show(status: 'Updating..');
+                            if (chooseAddress) {
+                              CollectionReference addresRf = firestore
+                                  .collection('buyers')
+                                  .doc(auth.currentUser!.uid)
+                                  .collection('address');
+                              var addresId = const Uuid().v4();
+                              await addresRf.doc(addresId).set({
+                                'addressId': addresId,
+                                'fullName': fullName.text,
+                                'email': email.text,
+                                'phone': phone.text,
+                                'address': address,
+                                'country': countryValue,
+                                'state': stateValue,
+                                'city': cityValue,
+                                'zipcode': zipcode,
+                                'default': true,
+                              }).whenComplete(() {
+                                EasyLoading.dismiss();
+                                Navigator.pop(context);
+                              });
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: 'Please set your location');
+                            }
+                          },
+                          child: Text(
+                            'Update',
+                            style: styles(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          )),
+                )),
           ],
         ),
       ),

@@ -132,7 +132,7 @@ class _StorePageState extends State<StorePage> {
                                       'waiting for approval',
                                       textAlign: TextAlign.center,
                                       style: styles(
-                                          fontSize: 16, color: Colors.white),
+                                          fontSize: 12, color: Colors.white),
                                     ),
                                   ),
                                 ),
@@ -153,7 +153,7 @@ class _StorePageState extends State<StorePage> {
                         child: Text(
                           storeData['bussinessName'],
                           style: styles(
-                            fontSize: 16,
+                            fontSize: 12,
                             color: Colors.black87,
                           ),
                         ),
@@ -162,7 +162,7 @@ class _StorePageState extends State<StorePage> {
                         storeData['country'],
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.justify,
-                        style: styles(color: Colors.black54),
+                        style: styles(color: Colors.black54, fontSize: 10),
                       ),
                       const SizedBox(
                         height: 10,

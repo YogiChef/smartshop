@@ -25,7 +25,7 @@ class ProfilePage extends StatelessWidget {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.33,
                         width: double.infinity,
-                        padding: const EdgeInsets.fromLTRB(50, 50, 20, 50),
+                        padding: const EdgeInsets.fromLTRB(20, 80, 20, 40),
                         decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage('images/profile.jpg'),
@@ -39,12 +39,14 @@ class ProfilePage extends StatelessWidget {
                               radius: 50,
                               child: Icon(
                                 Icons.person,
-                                size: 90,
+                                size: 80,
                                 color: Colors.yellow.shade900,
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 30),
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -52,22 +54,24 @@ class ProfilePage extends StatelessWidget {
                                     '',
                                     textAlign: TextAlign.center,
                                     style: styles(
-                                        fontSize: 20, color: Colors.white),
+                                        fontSize: 12, color: Colors.white),
                                   ),
                                   Text(
                                     '',
                                     textAlign: TextAlign.center,
                                     style: styles(
-                                        fontSize: 16, color: Colors.white),
+                                        fontSize: 12, color: Colors.white),
                                   ),
                                   SizedBox(
                                     width:
-                                        MediaQuery.of(context).size.width * 0.4,
+                                        MediaQuery.of(context).size.width * 0.5,
                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.yellow.shade900,
-                                        ),
+                                            backgroundColor:
+                                                Colors.yellow.shade900,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5))),
                                         onPressed: () {
                                           Navigator.pushReplacement(
                                               context,
@@ -78,7 +82,7 @@ class ProfilePage extends StatelessWidget {
                                         child: Text(
                                           'Login Account',
                                           style: styles(
-                                            fontSize: 16,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                           ),
                                         )),
@@ -90,8 +94,8 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: 40,
-                        left: 60,
+                        top: 30,
+                        left: 20,
                         child: Text(
                           'Profile',
                           style: styles(
@@ -99,7 +103,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                          top: 40,
+                          top: 30,
                           right: 20,
                           child: Icon(CupertinoIcons.moon,
                               color: Colors.yellow.shade900))
@@ -172,7 +176,7 @@ class ProfilePage extends StatelessWidget {
                               height: MediaQuery.of(context).size.height * 0.33,
                               width: double.infinity,
                               padding:
-                                  const EdgeInsets.fromLTRB(50, 50, 20, 50),
+                                  const EdgeInsets.fromLTRB(20, 80, 20, 40),
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(data['coverImage']),
@@ -186,76 +190,85 @@ class ProfilePage extends StatelessWidget {
                                     backgroundImage:
                                         NetworkImage(data['profileImage']),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20, top: 30),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          data['fullName'],
-                                          textAlign: TextAlign.center,
-                                          style: styles(
-                                              fontSize: 20,
-                                              color: Colors.white),
-                                        ),
-                                        Text(
-                                          data['email'],
-                                          textAlign: TextAlign.center,
-                                          style: styles(
-                                              fontSize: 16,
-                                              color: Colors.white),
-                                        ),
-                                        SizedBox(
-                                          height: 35,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.35,
-                                          child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.yellow.shade900,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5))),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            EditProfile(
-                                                              userData: data,
-                                                            )));
-                                              },
-                                              child: Text(
-                                                'Edit Profile',
-                                                style: styles(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              )),
-                                        ),
-                                      ],
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8, top: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            data['fullName'],
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: styles(
+                                                fontSize: 12,
+                                                color: Colors.white),
+                                          ),
+                                          Text(
+                                            data['email'],
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: styles(
+                                                fontSize: 12,
+                                                color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 35,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.45,
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors
+                                                        .yellow.shade900,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5))),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditProfile(
+                                                                userData: data,
+                                                              )));
+                                                },
+                                                child: Text(
+                                                  'Edit Profile',
+                                                  style: styles(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
+                                                  ),
+                                                )),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Positioned(
-                              top: 40,
-                              left: 60,
+                              top: 30,
+                              left: 20,
                               child: Text(
                                 'Profile',
                                 style: styles(
                                     fontSize: 20,
-                                    color: Colors.yellow.shade900),
+                                    color: data['coverImage'] != null
+                                        ? Colors.white
+                                        : Colors.yellow.shade900),
                               ),
                             ),
                             Positioned(
-                                top: 40,
+                                top: 30,
                                 right: 20,
                                 child: CircleAvatar(
                                   radius: 20,
@@ -353,10 +366,10 @@ class ProfilePage extends StatelessWidget {
         ),
         title: Text(
           text,
-          style: styles(fontSize: 18, color: Colors.black54),
+          style: styles(fontSize: 14, color: Colors.black54),
         ),
         subtitle:
-            Text(subtitle, style: styles(fontSize: 15, color: Colors.black54)),
+            Text(subtitle, style: styles(fontSize: 12, color: Colors.black54)),
       ),
     );
   }

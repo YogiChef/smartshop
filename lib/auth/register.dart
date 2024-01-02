@@ -70,9 +70,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 'Create Custorer\'s\n Account',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.righteous(
-                    fontSize: 24,
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.w600),
+                  fontSize: 20,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
               ),
             ),
 
@@ -83,26 +85,33 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 170,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(0),
-                        image: _coverImage != null
-                            ? DecorationImage(
-                                image: MemoryImage(_coverImage!),
-                                fit: BoxFit.cover)
-                            : null),
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(0),
+                      image: _coverImage != null
+                          ? DecorationImage(
+                              image: MemoryImage(_coverImage!),
+                              fit: BoxFit.cover)
+                          : const DecorationImage(
+                              image: AssetImage('images/viewcover.jpg'),
+                              fit: BoxFit.cover),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 30),
                       child: Row(
                         children: [
                           Stack(
                             children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.yellow.shade900,
-                                backgroundImage: _image != null
-                                    ? MemoryImage(_image!)
-                                    : null,
-                              ),
+                              _image != null
+                                  ? CircleAvatar(
+                                      radius: 50,
+                                      backgroundColor: Colors.yellow.shade900,
+                                      backgroundImage: MemoryImage(_image!),
+                                    )
+                                  : const CircleAvatar(
+                                      radius: 50,
+                                      backgroundImage:
+                                          AssetImage('images/profile.webp'),
+                                    ),
                               Positioned(
                                 right: 0,
                                 bottom: 0,
@@ -142,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () {
                             chooseOptionCoverImage(context);
                           },
-                          icon: _image != null
+                          icon: _coverImage != null
                               ? const Icon(
                                   Icons.edit,
                                   color: Colors.white,
@@ -300,6 +309,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.yellow.shade900,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
                         ),
                         onPressed: () {
                           _signUp();
@@ -309,35 +320,33 @@ class _RegisterPageState extends State<RegisterPage> {
                           style: GoogleFonts.righteous(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
+                            color: Colors.white,
                           ),
                         )),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Already have an account',
-                    style: GoogleFonts.righteous(fontSize: 14),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
-                      },
-                      child: Text(
-                        'Login',
-                        style: GoogleFonts.righteous(
-                            color: Colors.cyan.shade400,
-                            letterSpacing: 1,
-                            fontSize: 16),
-                      ))
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Already have an account',
+                  style: GoogleFonts.righteous(fontSize: 12),
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    },
+                    child: Text(
+                      'Login',
+                      style: GoogleFonts.righteous(
+                          color: Colors.cyan.shade400,
+                          letterSpacing: 1,
+                          fontSize: 14),
+                    ))
+              ],
             )
           ],
         ),

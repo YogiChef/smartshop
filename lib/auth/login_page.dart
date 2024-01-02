@@ -59,9 +59,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 'Login\nCustorer\'s Account',
                 textAlign: TextAlign.left,
-                style: styles(fontSize: 24,
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.w600),
+                style: styles(
+                  fontSize: 20,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
               ),
             ),
             const SizedBox(
@@ -138,15 +141,17 @@ class _LoginPageState extends State<LoginPage> {
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.yellow.shade900,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
                         ),
                         onPressed: () {
                           login();
                         },
-                        child: Text(
-                          'Login',
-                          style: styles(fontSize: 20,
-                            fontWeight: FontWeight.w500,)
-                        )),
+                        child: Text('Login',
+                            style: styles(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white))),
               ),
             ),
             Padding(

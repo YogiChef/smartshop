@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smartshop/services/service_firebase.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
@@ -68,16 +67,16 @@ class _VisitStoreState extends State<VisitStore> {
               title: Row(
                 children: [
                   Container(
-                    height: 55,
-                    width: 57,
+                    height: 50,
+                    width: 50,
                     decoration: BoxDecoration(
                         border: Border.all(
                           width: 2,
                           color: Colors.cyan,
                         ),
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(30)),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(30),
                       child: Image.network(
                         data['image'],
                         fit: BoxFit.cover,
@@ -159,14 +158,16 @@ class _VisitStoreState extends State<VisitStore> {
                                         ? Text('Following',
                                             overflow: TextOverflow.ellipsis,
                                             style: styles(
-                                                color: Colors.teal,
-                                                fontSize: 14))
+                                              color: Colors.teal,
+                                              fontSize: 10,
+                                            ))
                                         : Text(
                                             'Follow',
                                             overflow: TextOverflow.ellipsis,
                                             style: styles(
-                                                color: Colors.red,
-                                                fontSize: 14),
+                                              color: Colors.red,
+                                              fontSize: 10,
+                                            ),
                                           ),
                                   ),
                                 ),
@@ -204,7 +205,7 @@ class _VisitStoreState extends State<VisitStore> {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: snapshot.data!.docs.length,
-                    crossAxisCount: 3,
+                    crossAxisCount: 2,
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6,
                     itemBuilder: (BuildContext context, int index) {
@@ -237,9 +238,7 @@ class _VisitStoreState extends State<VisitStore> {
                                         child: Center(
                                           child: Text(
                                             'Out of Stock',
-                                            style: styles(
-                                                fontSize: 16,
-                                                color: Colors.white),
+                                            style: styles(color: Colors.white),
                                           ),
                                         ),
                                       ))
@@ -256,13 +255,13 @@ class _VisitStoreState extends State<VisitStore> {
                                     left: 6, top: 8, right: 6),
                                 child: Text(
                                   productData['proName'],
-                                  style: GoogleFonts.righteous(fontSize: 14),
+                                  style: styles(fontSize: 12),
                                 ),
                               ),
                               Text(
                                 '฿${productData['price'].toStringAsFixed(2)}',
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.righteous(fontSize: 14),
+                                style: styles(fontSize: 12),
                               ),
                               const SizedBox(
                                 height: 10,

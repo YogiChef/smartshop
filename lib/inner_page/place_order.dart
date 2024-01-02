@@ -9,17 +9,15 @@ import '../services/service_firebase.dart';
 import '../views/buyers/main_page.dart';
 
 class PlaceOrderPage extends StatefulWidget {
-  const PlaceOrderPage(
-      {super.key,
-      });
-
+  const PlaceOrderPage({
+    super.key,
+  });
 
   @override
   State<PlaceOrderPage> createState() => _PlaceOrderPageState();
 }
 
 class _PlaceOrderPageState extends State<PlaceOrderPage> {
-  
   @override
   Widget build(BuildContext context) {
     final CartProvider _cartProvider = Provider.of<CartProvider>(context);
@@ -39,86 +37,87 @@ class _PlaceOrderPageState extends State<PlaceOrderPage> {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          return
-     Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Image.asset(
-              'images/delivery.webp',
-              width: MediaQuery.of(context).size.width * 0.8,
-            ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.cyan.shade600,
-                  padding: const EdgeInsets.symmetric(horizontal: 10)),
-              onPressed: () {
-                _cartProvider.getCartItem.forEach((key, item) {
-                                final orderId = const Uuid().v4();
-
-                                firestore
-                                    .collection('orders')
-                                    .doc(orderId)
-                                    .set({
-                                  'orderId': orderId,
-                                  'vendorId': item.venderId,
-                                  'email': data['email'],
-                                  'phone': data['phone'],
-                                  'address': data['address'],
-                                  'buyerId': data['buyerId'],
-                                  'fullName': data['fullName'],
-                                  'buyerImage': data['profileImage'],
-                                  'proName': item.proName,
-                                  'price': item.price,
-                                  'proId': item.proId,
-                                  'productImage': item.imageUrl,
-                                  'qty': item.quantity,
-                                  'productSize': item.productSize,
-                                  'scheduleDate': item.scheduleDate,
-                                  'oderDate': DateTime.now(),
-                                  'accepted': false,
-                                }).whenComplete(() async {
-                                  firestore.runTransaction((transaction) async {
-                                    DocumentReference rf = FirebaseFirestore
-                                        .instance
-                                        .collection('products')
-                                        .doc(item.proId);
-                                    DocumentSnapshot spshot =
-                                        await transaction.get(rf);
-                                    transaction.update(rf,
-                                        {'qty': spshot['qty'] - item.quantity});
-                                  });
-                                  setState(() {
-                                    _cartProvider.getCartItem.clear();
-                                  });
-
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MainPage())).whenComplete(
-                                      () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage())));
-                                });
-                              });
-              },
-              icon: const Icon(Icons.gif_box_rounded),
-              label: Text(
-                'Place Order',
-                style: styles(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+          return Scaffold(
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Image.asset(
+                    'images/delivery.webp',
+                    width: MediaQuery.of(context).size.width * 0.8,
+                  ),
                 ),
-              )),
-        ],
-      ),
-    );
-  }
-return const Center(
+                const SizedBox(
+                  height: 12,
+                ),
+                ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.cyan.shade400,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: const EdgeInsets.symmetric(horizontal: 10)),
+                    onPressed: () {
+                      _cartProvider.getCartItem.forEach((key, item) {
+                        final orderId = const Uuid().v4();
+
+                        firestore.collection('orders').doc(orderId).set({
+                          'orderId': orderId,
+                          'vendorId': item.venderId,
+                          'email': data['email'],
+                          'phone': data['phone'],
+                          'address': data['address'],
+                          'buyerId': data['buyerId'],
+                          'fullName': data['fullName'],
+                          'buyerImage': data['profileImage'],
+                          'proName': item.proName,
+                          'price': item.price,
+                          'proId': item.proId,
+                          'productImage': item.imageUrl,
+                          'qty': item.quantity,
+                          'productSize': item.productSize,
+                          'scheduleDate': item.scheduleDate,
+                          'oderDate': DateTime.now(),
+                          'accepted': false,
+                        }).whenComplete(() async {
+                          firestore.runTransaction((transaction) async {
+                            DocumentReference rf = FirebaseFirestore.instance
+                                .collection('products')
+                                .doc(item.proId);
+                            DocumentSnapshot spshot = await transaction.get(rf);
+                            transaction.update(
+                                rf, {'qty': spshot['qty'] - item.quantity});
+                          });
+                          setState(() {
+                            _cartProvider.getCartItem.clear();
+                          });
+
+                          Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MainPage()))
+                              .whenComplete(() => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MainPage())));
+                        });
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.check_box_outlined,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'ยืนยันคำสั่งซื้อ',
+                      style: styles(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    )),
+              ],
+            ),
+          );
+        }
+        return const Center(
           child: CircularProgressIndicator(
             color: Colors.teal,
           ),

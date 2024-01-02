@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:smartshop/views/nav_page/search.page.dart';
 import 'package:smartshop/views/nav_page/widgets/qr_code.dart';
 import '../../../services/service_firebase.dart';
 
 class WelcomeText extends StatelessWidget {
-   const WelcomeText({
-    Key? key,
-  }) : super(key: key);
+  const WelcomeText({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +18,9 @@ class WelcomeText extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Howdy , What Are You\nLooking For ',
+            'Howdy , What Are\nYou Looking For ',
             style: styles(
-              fontSize: 22,
-              fontWeight: FontWeight.w400,
-            ),
+                fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
           ),
           SizedBox(
               height: 20,
@@ -31,7 +30,8 @@ class WelcomeText extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const QrCodePage()));
+                        builder: (context) => const QrCodePage(),
+                      ));
                 },
               ))
         ],
@@ -42,8 +42,8 @@ class WelcomeText extends StatelessWidget {
 
 class SearchIputWidget extends StatelessWidget {
   const SearchIputWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,12 @@ class SearchIputWidget extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(7),
           child: TextField(
-            onTap: () => Navigator.pushReplacementNamed(context, 'search'),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SearchPage(),
+              ),
+            ),
             readOnly: true,
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15),

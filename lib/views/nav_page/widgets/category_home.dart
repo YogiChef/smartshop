@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smartshop/products/product_detail.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
@@ -32,7 +31,7 @@ class CategoryHome extends StatelessWidget {
         }
 
         return Container(
-            height: 320,
+            height: 370,
             decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(0)),
@@ -83,7 +82,7 @@ class CategoryHome extends StatelessWidget {
                                           'Out of Stock',
                                           textAlign: TextAlign.center,
                                           style: styles(
-                                              fontSize: 20,
+                                              fontSize: 14,
                                               color: Colors.white),
                                         ),
                                       ),
@@ -100,14 +99,13 @@ class CategoryHome extends StatelessWidget {
                         child: Text(
                           productData['proName'],
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.righteous(fontSize: 16),
+                          style: styles(),
                         ),
                       ),
                       Text(
                         '฿${productData['price'].toStringAsFixed(2)}',
                         overflow: TextOverflow.ellipsis,
                         style: styles(
-                          fontSize: 14,
                           color: Colors.black,
                         ),
                       ),

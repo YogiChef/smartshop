@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:smartshop/services/service_firebase.dart';
 import 'package:smartshop/views/nav_page/widgets/input_textfield.dart';
 

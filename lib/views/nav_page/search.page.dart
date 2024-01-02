@@ -21,20 +21,20 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'customer_home');
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios,
-                  size: 20,
-                  color: Colors.black,
-                )),
-          ),
+          // leading: Padding(
+          //   padding: const EdgeInsets.only(left: 20),
+          //   child: IconButton(
+          //       onPressed: () {
+          //         Navigator.pushNamed(context, 'customer_home');
+          //       },
+          //       icon: const Icon(
+          //         Icons.arrow_back_ios,
+          //         size: 20,
+          //         color: Colors.black,
+          //       )),
+          // ),
           title: SizedBox(
-            height: 40,
+            height: 43,
             child: CupertinoSearchTextField(
               itemSize: 24,
               autofocus: true,
@@ -72,7 +72,7 @@ class _SearchPageState extends State<SearchPage> {
                           'Search for\nany products',
                           // maxLines: 2,
                           style: GoogleFonts.righteous(
-                              fontSize: 30, color: Colors.yellow.shade900),
+                              fontSize: 26, color: Colors.yellow.shade900),
                         ),
                       ],
                     ),
@@ -109,7 +109,7 @@ class _SearchPageState extends State<SearchPage> {
 
 class SearchModel extends StatelessWidget {
   final dynamic e;
-  const SearchModel({Key? key, required this.e}) : super(key: key);
+  const SearchModel({super.key, required this.e});
 
   @override
   Widget build(BuildContext context) {
@@ -125,111 +125,109 @@ class SearchModel extends StatelessWidget {
                           )));
             },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           width: double.infinity,
-          height: 80,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Row(
-              children: [
-                e['qty'] <= 0
-                    ? Stack(children: [
-                        SizedBox(
-                          height: 60,
-                          width: 80,
-                          child: Image(
-                            image: NetworkImage(e['imageUrl'][0]),
-                            fit: BoxFit.cover,
+          height: 110,
+          child: Row(
+            children: [
+              e['qty'] <= 0
+                  ? Stack(children: [
+                      SizedBox(
+                        height: 70,
+                        width: 80,
+                        child: Image(
+                          image: NetworkImage(e['imageUrl'][0]),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned.fill(
+                          child: Container(
+                        color: Colors.black87.withOpacity(0.6),
+                        child: Center(
+                          child: Text(
+                            'Out of Stock',
+                            style: styles(fontSize: 12, color: Colors.white),
                           ),
                         ),
-                        Positioned.fill(
-                            child: Container(
-                          color: Colors.black87.withOpacity(0.6),
-                          child: Center(
-                            child: Text(
-                              'Out of Stock',
-                              style: styles(fontSize: 12, color: Colors.white),
+                      ))
+                    ])
+                  : ClipRRect(
+                      // borderRadius: BorderRadius.circular(5),
+                      child: SizedBox(
+                        height: 60,
+                        width: 80,
+                        child: Image(
+                          image: NetworkImage(e['imageUrl'][0]),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+              const SizedBox(
+                width: 10,
+              ),
+              Flexible(
+                  child: Column(
+                children: [
+                  Text(
+                    e['proName'],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    e['description'],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: const TextStyle(
+                        fontSize: 12, color: Colors.grey, height: 1),
+                  ),
+                  // const SizedBox(
+                  //   height: 12,
+                  // ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '฿ ${e['price'].toStringAsFixed(2)}',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: e['qty'] <= 10 ? Colors.red : Colors.grey,
+                              height: 1),
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.shopping_basket_outlined,
+                              size: 20,
+                              color: Colors.grey,
                             ),
-                          ),
-                        ))
-                      ])
-                    : ClipRRect(
-                        // borderRadius: BorderRadius.circular(5),
-                        child: SizedBox(
-                          height: 60,
-                          width: 80,
-                          child: Image(
-                            image: NetworkImage(e['imageUrl'][0]),
-                            fit: BoxFit.cover,
-                          ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              e['qty'].toString(),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: e['qty'] <= 10
+                                      ? Colors.red
+                                      : Colors.grey),
+                            ),
+                          ],
                         ),
-                      ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                    child: Column(
-                  children: [
-                    Text(
-                      e['proName'],
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500),
+                      ],
                     ),
-                    Text(
-                      e['description'],
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    // const SizedBox(
-                    //   height: 12,
-                    // ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '฿ ${e['price'].toStringAsFixed(2)}',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    e['qty'] <= 10 ? Colors.red : Colors.grey),
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.shopping_basket_outlined,
-                                size: 20,
-                                color: Colors.grey,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                e['qty'].toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: e['qty'] <= 10
-                                        ? Colors.red
-                                        : Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ))
-              ],
-            ),
+                  )
+                ],
+              ))
+            ],
           ),
         ),
       ),

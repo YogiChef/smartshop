@@ -120,65 +120,67 @@ class _ProductDetailState extends State<ProductDetail> {
                   const SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    height: 30,
-                    child: _cartProvider.getCartItem
-                            .containsKey(widget.productData['proId'])
-                        ? Text(
-                            'This item you have in cart already.!',
-                            style: styles(fontSize: 20, color: Colors.red),
-                          )
-                        : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: widget.productData['size'].length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 2, vertical: 1),
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      side: BorderSide(
-                                          width: 1,
-                                          color: Colors.yellow.shade900),
-                                      backgroundColor: selectSized !=
-                                              widget.productData['size'][index]
-                                          ? Colors.transparent
-                                          : Colors.yellow.shade900),
-                                  onPressed: () {
-                                    setState(() {
-                                      selectSized =
-                                          widget.productData['size'][index];
-                                    });
-                                  },
-                                  child: Text(
-                                    widget.productData['size'][index],
-                                    style: styles(
-                                        color: selectSized !=
+                  _cartProvider.getCartItem
+                          .containsKey(widget.productData['proId'])
+                      ? Text(
+                          'This item you have in cart already.!',
+                          textAlign: TextAlign.center,
+                          style: styles(fontSize: 16, color: Colors.red),
+                        )
+                      : SizedBox(
+                          height: 35,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: widget.productData['size'].length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 2),
+                                  child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        side: BorderSide(
+                                            width: 1,
+                                            color: Colors.yellow.shade900),
+                                        backgroundColor: selectSized !=
                                                 widget.productData['size']
                                                     [index]
-                                            ? Colors.yellow.shade900
-                                            : Colors.white),
+                                            ? Colors.transparent
+                                            : Colors.yellow.shade900),
+                                    onPressed: () {
+                                      setState(() {
+                                        selectSized =
+                                            widget.productData['size'][index];
+                                      });
+                                    },
+                                    child: Text(
+                                      widget.productData['size'][index],
+                                      style: styles(
+                                          color: selectSized !=
+                                                  widget.productData['size']
+                                                      [index]
+                                              ? Colors.yellow.shade900
+                                              : Colors.white),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }),
-                  ),
+                                );
+                              }),
+                        ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Shipping On',
-                          style: styles(fontSize: 14),
+                          style: styles(fontSize: 12, color: Colors.black),
                         ),
                         Text(
-                          DateFormat('dd/MM/yyyy - hh:mm')
+                          DateFormat('dd/MM/yy - hh:mm')
                               .format(widget.productData['date'].toDate()),
-                          style: styles(fontSize: 14, color: Colors.black87),
+                          style: styles(fontSize: 12, color: Colors.black87),
                         )
                       ],
                     ),
@@ -191,20 +193,18 @@ class _ProductDetailState extends State<ProductDetail> {
                       children: [
                         Text(
                           'Description',
-                          style: styles(
-                            fontSize: 16,
-                          ),
+                          style: styles(fontSize: 16, color: Colors.black),
                         ),
                         Text(
                           'view',
-                          style: styles(fontSize: 16),
+                          style: styles(fontSize: 16, color: Colors.black),
                         ),
                       ],
                     ),
                     children: [
                       Text(
                         widget.productData['description'],
-                        style: styles(fontSize: 16, color: Colors.black54),
+                        style: styles(fontSize: 14, color: Colors.black54),
                       ),
                       const SizedBox(
                         height: 10,
@@ -212,19 +212,16 @@ class _ProductDetailState extends State<ProductDetail> {
                       Text(
                         'Quantity:  ${widget.productData['qty'].toString()}',
                         style: styles(
-                            fontSize: 16,
-                            color: widget.productData['qty'] < 10
-                                ? Colors.red
-                                : Colors.black54),
+                            ),
                       ),
                       Text(
                         widget.productData['shippingCharge'] == 0
                             ? ''
                             : 'Shipping Charge:  ${widget.productData['shippingCharge'].toStringAsFixed(2)}',
-                        style: styles(fontSize: 16, color: Colors.black54),
+                        style: styles(),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 40,
                       )
                     ],
                   ),
@@ -235,18 +232,21 @@ class _ProductDetailState extends State<ProductDetail> {
         ),
       ),
       bottomSheet: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(bottom: 12),
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: MediaQuery.of(context).size.width * 0.6,
           child: selectSized == null
               ? const SizedBox()
               : ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow.shade900,
-                  ),
+                      backgroundColor: Colors.yellow.shade900,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5))),
                   label: Text(
-                    'Add to Cart',
-                    style: styles(fontSize: 16),
+                    'เพิ่มลงตะกร้า',
+                    style: styles(
+                      color: Colors.white,
+                    ),
                   ),
                   onPressed: () {
                     _cartProvider.addProductToCart(
@@ -263,12 +263,15 @@ class _ProductDetailState extends State<ProductDetail> {
                     );
                     Navigator.pop(context);
                     Fluttertoast.showToast(
-                        msg:
-                            'You Added ${widget.productData['proName']} To Your Cart');
+                      msg:
+                          'You Added ${widget.productData['proName']} To Your Cart',
+                      fontSize: 12,
+                    );
                   },
                   icon: const Icon(
                     Icons.shopping_cart_outlined,
                     size: 20,
+                    color: Colors.white,
                   ),
                 ),
         ),

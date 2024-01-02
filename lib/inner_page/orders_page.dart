@@ -144,18 +144,17 @@ class _OrderPageState extends State<OrderPage> {
                             document['accepted'] == true
                                 ? Text(
                                     'Accepted',
-                                    style: styles(
-                                        fontSize: 16, color: Colors.green),
+                                    style: styles(color: Colors.green),
                                   )
                                 : Text(
                                     'Not Accepted',
                                     style: styles(
-                                        fontSize: 16, color: Colors.grey),
+                                        fontSize: 14, color: Colors.grey),
                                   ),
                             Text(
-                              'Amount: ฿${document['price'] * document['qty'].floor()} ',
+                              '฿${document['price'] * document['qty'].floor()} ',
                               style: styles(
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   color: document['accepted'] == true
                                       ? Colors.green
                                       : Colors.grey),
@@ -165,15 +164,15 @@ class _OrderPageState extends State<OrderPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 90,
+                          horizontal: 50,
                         ),
                         child: Row(
                           children: [
                             Text(
-                              DateFormat('dd/MM/yyyy - hh:mm')
+                              DateFormat('dd/MM/yy - hh:mm')
                                   .format(document['oderDate'].toDate()),
                               style: styles(
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   color: document['accepted'] == true
                                       ? Colors.green
                                       : Colors.grey),
@@ -185,95 +184,104 @@ class _OrderPageState extends State<OrderPage> {
                         title: Text(
                           'Order Datails',
                           style: styles(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: document['accepted'] == true
                                   ? Colors.green
                                   : Colors.black54),
                         ),
                         // subtitle: Text('View'),
                         children: [
-                          ListTile(
-                            leading: SizedBox(
-                              height: 60,
-                              width: 80,
-                              child: Image.network(
-                                document['productImage'][0],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(document['proName']),
-                                Text(
-                                    '฿ ${document['price'].toStringAsFixed(2)}')
-                              ],
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      'Quantity',
-                                      style: styles(
-                                          fontSize: 16, color: Colors.black54),
-                                    ),
-                                    Text(
-                                      document['qty'].toString(),
-                                      style: styles(
-                                          fontSize: 14, color: Colors.black54),
-                                    )
-                                  ],
-                                ),
-                                document['accepted'] == true
-                                    ? Text(
-                                        'Delivery Date: ${DateFormat('dd/MM/yyyy - hh:mm').format(document['scheduleDate'].toDate())}',
-                                        style: styles(
-                                            fontSize: 14,
-                                            color: Colors.yellow.shade900),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 60,
+                                        width: 80,
+                                        child: Image.network(
+                                          document['productImage'][0],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              document['proName'],
+                                              style: styles(fontSize: 12),
+                                            ),
+                                            Text(
+                                              '฿ ${document['price'].toStringAsFixed(2)}',
+                                              style: styles(
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  'Quantity',
+                                                  style: styles(
+                                                      fontSize: 12,
+                                                      color: Colors.black54),
+                                                ),
+                                                const SizedBox(
+                                                  width: 60,
+                                                ),
+                                                Text(
+                                                  document['qty'].toString(),
+                                                  style: styles(
+                                                      fontSize: 12,
+                                                      color: Colors.black54),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       )
-                                    : const Text(''),
-                                ListTile(
-                                    title: Text(
-                                      'Buyer Details',
-                                      style: styles(fontSize: 16),
-                                    ),
-                                    subtitle: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            document['fullName'],
-                                            style: styles(
-                                                fontSize: 14,
-                                                color: Colors.black54),
-                                          ),
-                                          Text(
-                                            document['phone'],
-                                            style: styles(
-                                                fontSize: 14,
-                                                color: Colors.black54),
-                                          ),
-                                          Text(
-                                            document['email'],
-                                            style: styles(
-                                                fontSize: 14,
-                                                color: Colors.black54),
-                                          ),
-                                          Text(
-                                            document['address'],
-                                            style: styles(
-                                                fontSize: 14,
-                                                color: Colors.black54),
-                                          )
-                                        ])),
-                              ],
-                            ),
+                                    ],
+                                  ),
+                                  document['accepted'] == true
+                                      ? Text(
+                                          'Delivery Date: ${DateFormat('dd/MM/yyyy - hh:mm').format(document['scheduleDate'].toDate())}',
+                                          style: styles(
+                                              fontSize: 14,
+                                              color: Colors.yellow.shade900),
+                                        )
+                                      : const SizedBox(),
+                                  Text(
+                                    'Buyer Details',
+                                    style: styles(fontSize: 14),
+                                  ),
+                                  Text(
+                                    document['fullName'],
+                                    style: styles(
+                                        fontSize: 12, color: Colors.black54),
+                                  ),
+                                  Text(
+                                    document['phone'],
+                                    style: styles(
+                                        fontSize: 12, color: Colors.black54),
+                                  ),
+                                  Text(
+                                    document['email'],
+                                    style: styles(
+                                        fontSize: 12, color: Colors.black54),
+                                  ),
+                                  Text(
+                                    document['address'],
+                                    style: styles(
+                                        fontSize: 12, color: Colors.black54),
+                                  ),
+                                ]),
                           )
                         ],
                       )

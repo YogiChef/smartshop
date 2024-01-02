@@ -72,28 +72,33 @@ class _CategoryTextState extends State<CategoryText> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 4,
                               ),
-                              child: ActionChip(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4, vertical: 0),
-                                  shadowColor: Colors.black,
-                                  elevation: 4,
-                                  backgroundColor: _selectCategory !=
-                                          categoryData['categoryName']
-                                      ? Colors.black12
-                                      : Colors.yellow.shade900,
-                                  onPressed: () {
-                                    setState(() {
-                                      _selectCategory =
-                                          categoryData['categoryName'];
-                                    });
-                                  },
-                                  labelPadding: const EdgeInsets.symmetric(
-                                      horizontal: 8),
-                                  label: Text(
-                                    categoryData['categoryName'],
-                                    style: styles(
-                                        color: Colors.white, fontSize: 14),
-                                  )),
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 9.5),
+                                child: ActionChip(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 0),
+                                    shadowColor: Colors.black,
+                                    elevation: 4,
+                                    backgroundColor: _selectCategory !=
+                                            categoryData['categoryName']
+                                        ? Colors.black12
+                                        : Colors.yellow.shade900,
+                                    onPressed: () {
+                                      setState(() {
+                                        _selectCategory =
+                                            categoryData['categoryName'];
+                                      });
+                                    },
+                                    labelPadding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                    ),
+                                    label: Text(
+                                      categoryData['categoryName'],
+                                      style: styles(
+                                          color: Colors.white, fontSize: 12),
+                                    )),
+                              ),
                             );
                           }),
                     ),

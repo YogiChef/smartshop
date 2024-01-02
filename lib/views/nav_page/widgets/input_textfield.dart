@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:smartshop/services/service_firebase.dart';
 
 class InputTextfield extends StatelessWidget {
   const InputTextfield({
-    Key? key,
+    super.key,
     required this.textInputType,
     required this.prefixIcon,
     this.suffixIcon,
     required this.hintText,
     required this.validator,
-   this.onChanged,
+    this.onChanged,
     this.controller,
     this.obscureText = false,
-  }) : super(key: key);
+  });
 
   final TextInputType textInputType;
   final TextEditingController? controller;
@@ -36,7 +36,7 @@ class InputTextfield extends StatelessWidget {
           prefixIcon: prefixIcon,
           hintText: hintText,
           suffixIcon: suffixIcon,
-          hintStyle: GoogleFonts.righteous(),
+          hintStyle: styles(),
           focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.yellow.shade900, width: 2)),
           errorBorder: const UnderlineInputBorder(

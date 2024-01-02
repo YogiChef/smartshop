@@ -72,7 +72,7 @@ class CategoryPage extends StatelessWidget {
                         child: Text(
                           productData['categoryName'],
                           style: styles(
-                            fontSize: 18,
+                            fontSize: 12,
                             color: Colors.black87,
                           ),
                         ),

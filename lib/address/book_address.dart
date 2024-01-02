@@ -36,13 +36,12 @@ class _AddressBookState extends State<AddressBook> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
-                color: Colors.yellow.shade900,
               )),
           title: Text(
-            'Address Book',
-            style: styles(fontSize: 20, color: Colors.yellow.shade900),
+            'ที่อยู่ปัจจุบัน',
+            style: styles(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           actions: [
             Padding(
@@ -87,8 +86,10 @@ class _AddressBookState extends State<AddressBook> {
                                                       BorderRadius.circular(5)),
                                             ),
                                             label: Text(
-                                              'Add New Address',
-                                              style: styles(fontSize: 16),
+                                              'เพิ่มที่อยู่',
+                                              style: styles(
+                                                color: Colors.white,
+                                              ),
                                             ),
                                             onPressed: () async {
                                               Navigator.push(
@@ -102,6 +103,7 @@ class _AddressBookState extends State<AddressBook> {
                                             icon: const Icon(
                                               Icons.padding,
                                               size: 20,
+                                              color: Colors.white,
                                             ),
                                           ),
                                         ],
@@ -117,10 +119,9 @@ class _AddressBookState extends State<AddressBook> {
                               ),
                             ));
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.add,
                     size: 24,
-                    color: Colors.yellow.shade900,
                   )),
             )
           ],
@@ -214,7 +215,7 @@ class _AddressBookState extends State<AddressBook> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'address: ${customer['address']} ',
+                                                '${customer['address']} ',
                                                 style: const TextStyle(
                                                     height: 1.2),
                                               ),
@@ -224,7 +225,7 @@ class _AddressBookState extends State<AddressBook> {
                                                     height: 1.2),
                                               ),
                                               Text(
-                                                "country:  ${customer['country']}  ${customer['zipcode']}",
+                                                "${customer['country']}  ${customer['zipcode']}",
                                                 style: const TextStyle(
                                                     height: 1.2),
                                               ),
@@ -244,9 +245,10 @@ class _AddressBookState extends State<AddressBook> {
                                                                           5)),
                                                         ),
                                                         label: Text(
-                                                          'Place Order ',
+                                                          'ยืนยัน',
                                                           style: styles(
-                                                              fontSize: 16),
+                                                            color: Colors.white,
+                                                          ),
                                                         ),
                                                         onPressed: () async {
                                                           Navigator.push(
@@ -259,6 +261,7 @@ class _AddressBookState extends State<AddressBook> {
                                                         icon: const Icon(
                                                           Icons.padding,
                                                           size: 20,
+                                                          color: Colors.white,
                                                         ),
                                                       ),
                                                     )

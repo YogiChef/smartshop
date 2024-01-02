@@ -55,91 +55,86 @@ class MainCategoryPage extends StatelessWidget {
               return const Text("");
             }
 
-            return Container(
-                height: 320,
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(0)),
-                child: StaggeredGridView.countBuilder(
-                  shrinkWrap: true,
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 6,
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    final productData = snapshot.data!.docs[index];
-                    return GestureDetector(
-                      onTap: productData['qty'] <= 0
-                          ? null
-                          : () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductDetail(
-                                            productData: productData,
-                                          )));
-                            },
-                      child: Column(
-                        children: [
-                          productData['qty'] <= 0
-                              ? Stack(children: [
-                                  Image(
+            return StaggeredGridView.countBuilder(
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              crossAxisSpacing: 6,
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final productData = snapshot.data!.docs[index];
+                return GestureDetector(
+                  onTap: productData['qty'] <= 0
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductDetail(
+                                        productData: productData,
+                                      )));
+                        },
+                  child: Column(
+                    children: [
+                      productData['qty'] <= 0
+                          ? Stack(children: [
+                              Image(
+                                image: NetworkImage(
+                                    productData['imageUrl'][0]),
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned.fill(
+                                  child: Container(
+                                color: Colors.black87.withOpacity(0.6),
+                                child: Center(
+                                  child: Text(
+                                    'Out of Sevice',
+                                    textAlign: TextAlign.center,
+                                    style: styles(
+                                        fontSize: 12, color: Colors.white),
+                                  ),
+                                ),
+                              ))
+                            ])
+                          : Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              // height: 90,
+                              width: double.maxFinite,
+                              constraints: const BoxConstraints(
+                                minHeight: 90,
+                                maxHeight: 220,
+                                minWidth: double.infinity,
+                              ),
+                              child: Hero(
+                                tag: 'proName${productData['proName']}',
+                                child: Image(
                                     image: NetworkImage(
                                         productData['imageUrl'][0]),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Positioned.fill(
-                                      child: Container(
-                                    color: Colors.black87.withOpacity(0.6),
-                                    child: Center(
-                                      child: Text(
-                                        'Out of Sevice',
-                                        textAlign: TextAlign.center,
-                                        style: styles(
-                                            fontSize: 20, color: Colors.white),
-                                      ),
-                                    ),
-                                  ))
-                                ])
-                              : Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  // height: 90,
-                                  width: double.maxFinite,
-                                  constraints: const BoxConstraints(
-                                    minHeight: 90,
-                                    maxHeight: 200,
-                                    minWidth: double.infinity,
-                                  ),
-                                  child: Hero(
-                                    tag: 'proName${productData['proName']}',
-                                    child: Image(
-                                        image: NetworkImage(
-                                            productData['imageUrl'][0]),
-                                        fit: BoxFit.cover),
-                                  )),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 5, top: 7, right: 5),
-                            child: Text(
-                              productData['proName'],
-                              overflow: TextOverflow.ellipsis,
-                              style: styles(fontSize: 16),
-                            ),
-                          ),
-                          Text(
-                            '฿${productData['price'].toStringAsFixed(2)}',
-                            overflow: TextOverflow.ellipsis,
-                            style: styles(fontSize: 16),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
+                                    fit: BoxFit.cover),
+                              )),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5, top: 7, right: 5),
+                        child: Text(
+                          productData['proName'],
+                          overflow: TextOverflow.ellipsis,
+                          style: styles(),
+                        ),
                       ),
-                    );
-                  },
-                  staggeredTileBuilder: (context) => const StaggeredTile.fit(1),
-                ));
+                      Text(
+                        '฿${productData['price'].toStringAsFixed(2)}',
+                        overflow: TextOverflow.ellipsis,
+                        style: styles(),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
+                );
+              },
+              staggeredTileBuilder: (context) => const StaggeredTile.fit(1),
+            );
           },
         ),
       ),

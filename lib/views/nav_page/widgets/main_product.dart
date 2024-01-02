@@ -30,7 +30,7 @@ class MainProductPage extends StatelessWidget {
         }
 
         return Container(
-            height: 320,
+            height: 370,
             decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(0)),
@@ -78,7 +78,7 @@ class MainProductPage extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 0, left: 0),
                               constraints: const BoxConstraints(
                                 minHeight: 90,
-                                maxHeight: 200,
+                                maxHeight: 220,
                                 minWidth: double.infinity,
                               ),
                               // height: 90,
